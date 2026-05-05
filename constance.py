@@ -1,0 +1,1 @@
+BOX_WIDTH = 50
