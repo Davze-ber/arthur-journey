@@ -3,10 +3,11 @@ from items import Item, Weapon, Potion
 
 
 class Character:
-    def __init__(self, name, health, power, defence, speed, level, experience):
+    def __init__(self, name, max_health, power, defence, speed, level, experience):
         # Core Stats
         self.name = name
-        self.health = health
+        self.current_health = max_health
+        self.max_health = max_health
         self.power = power
         self.defence = defence
         self.speed = speed
@@ -39,10 +40,10 @@ class Character:
     def receive_attack(self, opponent):
         incoming_damage = opponent.attack + random.randint(-2,+2)
         damage = max(0, incoming_damage - self.defence)
-        self.health -= damage
+        self.current_health -= damage
         print(f"{self.name} took {damage} damage!")
-        if self.health <= 0:
-            self.health = 0
+        if self.current_health <= 0:
+            self.current_health = 0
             self.status = "Dead"
             print(f"{self.name} has fallen!")
 
@@ -50,7 +51,7 @@ class Character:
 
 
     def get_health_status(self):
-        return self.health
+        return self.current_health
 
 
     def use_potion(self):
@@ -64,7 +65,7 @@ class Character:
             index_of_potion = int(input("Choose the Potion: "))
             chosen_potion = potions[index_of_potion - 1]
             
-            self.health += chosen_potion.healing_amount
+            self.current_health += chosen_potion.healing_amount
             self.inventory.remove(chosen_potion)
 
 

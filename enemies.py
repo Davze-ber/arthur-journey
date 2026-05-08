@@ -3,8 +3,8 @@ from character import Character
 
 
 class Enemy(Character):
-   def __init__(self, name, health, power, defence, speed, level, experience, ):
-       super().__init__(name, health, power, defence, speed, level, experience)
+   def __init__(self, name, max_health, power, defence, speed, level, experience, ):
+       super().__init__(name, max_health, power, defence, speed, level, experience)
        self.loot = None
 
 

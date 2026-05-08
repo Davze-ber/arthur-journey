@@ -1,12 +1,12 @@
 import random
 from character import Character
-from items import Item, Weapon
+from items import Item, Weapon, Armor
 from item_list import item_list,weapon_dict
 from constance import BOX_WIDTH
 
 class Player(Character):
-    def __init__(self, name, health, power, defence, speed, level, experience):
-        super().__init__(name,health, power, defence, speed, level, experience)
+    def __init__(self, name, max_health, power, defence, speed, level, experience):
+        super().__init__(name,max_health, power, defence, speed, level, experience)
       
         self.gear = {
            "head": None,
@@ -73,7 +73,7 @@ class Player(Character):
             print(f"{index + 1}: {item.name}")
 
     def show_stats(self):
-        print(f"Level: {self.level}, Exp: {self.experience}, Health: {self.health}, Attack: {self.attack}, Defence: {self.defence}, Speed: {self.speed}")
+        print(f"Level: {self.level}, Exp: {self.experience}, Health: {self.max_health}, Attack: {self.attack}, Defence: {self.defence}, Speed: {self.speed}")
 
 
     def draw_box(width, lines):
