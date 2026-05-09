@@ -72,20 +72,7 @@ class Player(Character):
         for index, item in  enumerate(self.inventory):
             print(f"{index + 1}: {item.name}")
 
-    def show_stats(self):
-        print(f"Level: {self.level}, Exp: {self.experience}, Health: {self.max_health}, Attack: {self.attack}, Defence: {self.defence}, Speed: {self.speed}")
 
-
-    def draw_box(width, lines):
-        inner_width = width - 6  # "X " + " X"
-
-        print("=" * width)
-
-        for line in lines:
-            padding = inner_width - len(line)
-            print("|| " + line + " " * padding + " ||")
-
-        print("=" * width)
 
 
 
@@ -93,14 +80,11 @@ class Player(Character):
         self.experience += target.experience
         return self.experience
 
-
-
-
     def level_up(self):
         match self.experience:
             case exp if exp >= 30:
                self.level  = 4
-               self.health += 5
+               self.max_health += 5
                self.power += 4
                self.defence += 2
                self.speed += 1
@@ -110,7 +94,7 @@ class Player(Character):
 
             case exp if exp >= 15:
                self.level = 3
-               self.health += 5
+               self.max_health += 5
                self.power += 1
                self.defence += 2
                self.speed += 3
@@ -120,12 +104,13 @@ class Player(Character):
 
             case exp if exp >= 5:
                self.level =2
-               self.health += 5
+               self.max_health += 5
                self.power += 2
                self.defence += 1
                self.speed += 2
              
-        return self.level,self.health, self.power,self.defence, self.speed
+        return self.level,self.max_health, self.power,self.defence, self.speed
+
 
 
 
