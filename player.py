@@ -7,7 +7,7 @@ from constance import BOX_WIDTH
 class Player(Character):
     def __init__(self, name, max_health, power, defence, speed, level, experience):
         super().__init__(name,max_health, power, defence, speed, level, experience)
-      
+        self.faction = "player"
         self.gear = {
            "head": None,
            "chest": None,
@@ -16,7 +16,7 @@ class Player(Character):
            "off_hand":None,
                    }
         self.backpack_size = 2
-
+        self.gold = 0
         self.inventory = [item_list["Lesser Potion"](), item_list["Strong Potion"](),weapon_dict["Wood Stick"]()]
 
 
@@ -35,6 +35,7 @@ class Player(Character):
             return self.attack + Weapon.damage
 
     def equip(self):
+
         self.show_player_gear_and_inventory()
         gear_slot_item = None
         item_index = int(input("What item to equip?"))
@@ -72,12 +73,25 @@ class Player(Character):
         for index, item in  enumerate(self.inventory):
             print(f"{index + 1}: {item.name}")
 
+    def choose_the_target(self,player_team, enemy_team):
+        if len(enemy_team) == 1:
+            target = enemy_team[0]
+            self.basic_attack(target)
+            return [target]
+        else:
+            while True:
+                try:
+                    choice = int(input("Which enemy to attack"))
+                    target = (enemy_team[choice - 1])
+                    break
+                except(ValueError, IndexError):
+                    print("Invalid choice! Pick a number from the list")
+            self.basic_attack(target)
+            return [target]
 
 
-
-
-    def gain_experience(self, target):
-        self.experience += target.experience
+    def gain_experience(self, total_exp):
+        self.experience += total_exp
         return self.experience
 
     def level_up(self):
@@ -85,26 +99,23 @@ class Player(Character):
             case exp if exp >= 30:
                self.level  = 4
                self.max_health += 5
+               self.current_health +5
                self.power += 4
                self.defence += 2
                self.speed += 1
 
-
-
-
             case exp if exp >= 15:
                self.level = 3
                self.max_health += 5
+               self.current_health +5
                self.power += 1
                self.defence += 2
                self.speed += 3
 
-
-
-
             case exp if exp >= 5:
                self.level =2
                self.max_health += 5
+               self.current_health +5
                self.power += 2
                self.defence += 1
                self.speed += 2
