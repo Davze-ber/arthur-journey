@@ -1,8 +1,8 @@
-import time, ui, actions, enemies
+import time, ui, actions
 from constance import BOX_WIDTH, BUTTON_WIDTH
 from player import Player
-from enemies import Enemy
- 
+from enemies import Enemy, enemies_dict
+from maps import plains
 from typing import Type
 class Counter:
     def __init__(self):
@@ -11,71 +11,7 @@ class Counter:
         self.turn += 1
         return self.turn
 
-def combat_beginnig(player, allies, enemy):
-   # Player and allies team
-   player_team = [player] + (allies if allies else [])
-   player_team_size = len(player_team)
 
-   # Enemy team/ Solo or multiple
-   if isinstance(enemy, list):
-      enemy_team =  enemy
-   else:
-      enemy_team = [enemy]
-   return player_team, player_team_size, enemy_team
-
-def combat_fighting(player, player_team, enemy_team):
-   gold_loot = 0
-   item_loot = []
-   unit_order = sorted((player_team + enemy_team), key = lambda unit: unit.speed, reverse=True)
-
-   combat_in_progress = True
-   while combat_in_progress:
-      if len(player_team) > 0 and len(enemy_team) > 0:
-         combat_in_progress = False
-         return combat_in_progress
-
-      for unit in unit_order:
-         for player_unit in player_team:
-            for enemy_unit in enemy_team:
-               print(f" {player_unit.name} HP: {player_unit.current_health}  -  {enemy_unit.name} HP: {enemy_unit.current_health}")
-         if isinstance(unit, Player):
-            if unit.status == "Dead":
-               continue
-            if unit.status == "Alive":
-               targets = player_combat_choice(player, enemy_team)
-               for target in targets:
-                  if targets.status == "Dead":
-                     enemy_team.remove(target)
-                     print(f"{target.name} has fallen!")
-                  
-                     target_gold = target.gold if target.gold else 0
-                     gold_loot += target_gold
-
-                     target_loot = target.loot if target.loot else []
-                     item_loot.append(target_loot)
-               return gold_loot, item_loot
-         # elif isinstance(unit, Ally):
-         #    pass
-
-         elif isinstance(unit, Enemy):
-            if unit.status == "Alive":
-               targets = player_combat_choice(player_team, enemy_team)
-               for target in targets:
-                  if targets.status == "Dead":
-                     player_team.remove(target)
-                     print(f"{target.name} has fallen!")
-
-
-def combat_result(player, player_team,player_team_size, enemy_team, gold_loot, item_loot):
-   if not player_team and len(enemy_team) >= 1:
-      if player_team_size == 1:
-         print(f"{player.name} was defeated!")
-      else:
-         print(f"Hero's party was defeated!")
-   if len(player_team) >= 1 and not enemy_team:
-      player.gold += gold_loot
-      player.inventory.append(item_loot)
-      print(f"Enemies were defeated!")
 
 def combat(player, allies, enemy):
    # Player and allies team
@@ -87,55 +23,72 @@ def combat(player, allies, enemy):
       enemy_team =  enemy
    else:
       enemy_team = [enemy]
+      
    total_exp = 0
    gold_loot = 0
    item_loot = []
 
    while len(player_team) > 0 and len(enemy_team) > 0:
-      unit_order = sorted((player_team + enemy_team), key = lambda unit: unit.speed, reverse=True)
+      unit_order = sorted((player_team + enemy_team), key = lambda unit: unit.total_stats["speed"], reverse=True)
+
       for player_unit in player_team:
-         print(f" {player_unit.name} HP: {player_unit.current_health}")
+         print(f"{player_unit.name} HP: {player_unit.current_health}")
                
       for enemy_unit in enemy_team:
          print(f"{enemy_unit.name} HP: {enemy_unit.current_health}")
 
       for unit in unit_order:
-         if not player_team or not enemy_team:
+         if check_teams_if_empty(player_team, enemy_team):
             break
 
+         if unit.is_alive == False:
+            if unit in player_team:
+               player_team.remove(unit)
+            elif unit in enemy_team:
+               enemy_team.remove(unit)
+            if check_teams_if_empty(player_team, enemy_team):
+               break
+            
+            continue
+
+         if unit.is_stunned == True:
+            print(f"{unit.name} is stunned!")
+            unit.is_stunned = False
+            continue
+
          if isinstance(unit, Player):
-            if unit.status == "Dead":
-               continue
-            if unit.status == "Alive":
-               targets = player_combat_choice(player, player_team, enemy_team)
-               for target in targets:
-                  if target.status == "Dead":
-                     enemy_team.remove(target)
-                     print(f"{target.name} has fallen!")
+                  targets = player_combat_choice(player, player_team, enemy_team)
+                  for target in targets:
+                     if target.is_alive == False:
+                        enemy_team.remove(target)
+                        print(f"{target.name} has fallen!")
 
-                     total_exp += target.experience
-                  
-                     target_gold = target.gold if hasattr(target, "gold") else 0
-                     gold_loot += target_gold
+                        total_exp += target.experience
+                     
+                        target_gold = target.gold if hasattr(target, "gold") else 0
+                        gold_loot += target_gold
 
-                     target_loot = target.loot if target.loot else []
-                     item_loot.extend(target_loot)
-               
-      
-
+                        target_loot = target.backpack if target.backpack else []
+                        item_loot.extend(target_loot)
+                        if check_teams_if_empty(player_team, enemy_team):
+                         break
+                 
+                     
          elif isinstance(unit, Enemy):
-            if unit.status == "Alive":
                targets = unit.choose_the_target(player_team, enemy_team)
                for target in targets:
-                  if target.status == "Dead":
+                  if target.is_alive == False:
                      player_team.remove(target)
                      print(f"{target.name} has fallen!")
+                     if check_teams_if_empty(player_team, enemy_team):
+                        break
+   
 
       
    if len(player_team) >= 1 and len(enemy_team) == 0:
       player.gain_experience(total_exp)
       player.gold += gold_loot
-      player.inventory.extend(item_loot)
+      player.inventory["backpack"].extend(item_loot)
       print(f"Enemies were defeated!")
       return "Victory"
    return "Defeat"
@@ -154,3 +107,26 @@ def player_combat_choice(player, player_team, enemy_team):
    return targets
 
 
+def enter_the_map(player, allies, map):
+   current_map = map
+ 
+   for current_floor in current_map:
+      print(f"Entering {current_floor['location']} Floor: {current_floor['floor']}")
+      floor_enemies =  current_floor["enemies"]
+      
+      current_enemies = [enemies_dict[enemy]() for enemy in floor_enemies]
+
+      result = combat(player, allies, current_enemies)
+      
+      if result == "Victory":
+         actions.after_a_fight(player)
+      elif result == "Defeat":
+         print("You are wounded! You must retreat!")
+         player.take_a_rest(at_inn=True)
+         player.is_alive = True
+         break
+
+
+def check_teams_if_empty(player_team, enemy_team):
+   if not player_team or not enemy_team:
+      return True

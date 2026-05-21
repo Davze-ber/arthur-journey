@@ -1,35 +1,30 @@
-from enemies import Enemy
-import enemies, combat
-from player import Player
+
 plains = [
     {
-    "name" : "Plains",
-    "level" : "1-5",
-    "enemies": [enemies.slime],
-    "events" : combat.combat(player, enemies.slime)
+    "location" : "Plains",
+    "floor" : "1-5",
+    "enemies" : ["slime"]
     } ,
     {
-    "name" : "Plains",
-    "level" : "2-5",
-    "enemies": [enemies.slime, enemies.slime],
-    "events" : combat.combat(player, [enemies.slime, enemies.slime])
+    "location" : "Plains",
+    "floor" : "2-5",
+    "enemies" : ["slime","slime"]
     } ,
     {
-    "name" : "Plains",
-    "level" : "3-5",
-    "enemies": [enemies.slime, enemies.wolf],
-    "events" : combat.combat(player, [enemies.slime, enemies.wolf])
+    "location" : "Plains",
+    "floor" : "3-5",
+    "enemies" : ["slime","wolf"]
     } ,
     {
-    "name" : "Plains",
-    "level" : "4-5",
-    "enemies": [enemies.wolf, enemies.wolf],
-    "events" : combat.combat(player, [enemies.wolf, enemies.wolf])
+    "location" : "Plains",
+    "floor" : "4-5",
+    "enemies" : ["wolf","wolf"]
     } ,
     {
-    "name" : "Plains",
-    "level" : "5-5",
-    "enemies": [enemies.goblin],
-    "events" : combat.combat(player, enemies.goblin)
+    "location" : "Plains",
+    "floor" : "5-5",
+    "enemies" : ["goblin"]
     } ,
 ]
+
+print(len(plains))

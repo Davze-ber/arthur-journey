@@ -1,36 +1,21 @@
-import random
 from character import Character
-
+from items import Item, Weapon, Armor
+from item_list import item_list, weapon_dict
 
 class Enemy(Character):
-   def __init__(self, name, max_health, power, defence, speed, level, experience, gold):
-       super().__init__(name, max_health, power, defence, speed, level, experience)
+   def __init__(self, name, health, strength,agility, intelligence, defence, speed, level, experience,resource_type, gold=0, loot=None):
+       super().__init__(name, health, strength,agility, intelligence, defence, speed, level, experience,resource_type)
        self.faction = "enemy"
-       self.gold = gold
-       self.loot = None
+       self.inventory["gold"] = gold
+       if loot:
+              for item in loot:
+                     self.backpack.appned(item)
 
 
-
-slime= Enemy("Slime", max_health=3, power=1, defence=1, speed=1,level=1, experience=5, gold=1)
-wolf= Enemy("Wolf", max_health=5, power=3, defence=1, speed=3, level=1,experience=10, gold=1)
 enemies_dict = {
-       "slime": lambda: Enemy("Slime", max_health=3, power=1, defence=1, speed=1,level=1, experience=5, gold=1),
-       "wolf": lambda: Enemy("Wolf", max_health=5, power=3, defence=1, speed=3, level=1,experience=10, gold=1),
-       "goblin": lambda: Enemy("Goblin", max_health=20, power=8, defence=6, speed=3, level=1, experience=5, gold=10)
+       "slime": lambda: Enemy("Slime", health=3, strength=1, agility=1, intelligence=1, defence=1, speed=1,level=1, experience=5, resource_type="rage", gold=1, loot=item_list["Lesser Potion"]),
+       "wolf": lambda: Enemy("Wolf", health=5, strength=3, agility=1, intelligence=1, defence=1, speed=3, level=1,experience=10,resource_type="rage", gold=1, loot=weapon_list["Axe"]),
+       "goblin": lambda: Enemy("Goblin", health=20, strength=8, agility=1, intelligence=1, defence=6, speed=3, level=1, experience=5,resource_type="rage", gold=10, loot=None)
 }
-
-
-# forest_enemy = [slime, wolf, golbin]
-
-# enemies_T1 = [
-#        Enemy("Slime", 3, 2, 1, 1,1, 5,1),
-#        # Enemy("Wolf", 5, 2, 1, 5, 1,10),
-# ]
-# enemies_T1_Boss = [Enemy("Goblin", 20, 8, 6, 3, 1, 5)]
-
-
-
-# goblin = Enemy("Goblin", 20, 8, 6, 3, 1, 5)
-
 
 
