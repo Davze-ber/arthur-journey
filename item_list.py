@@ -14,6 +14,8 @@ weapon_dict = {
 }
 
 
-
+armor_dict = {
+    
+}
 
 

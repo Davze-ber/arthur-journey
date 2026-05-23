@@ -32,6 +32,7 @@ class Player(Character):
         self.show_player_gear_and_inventory()
         gear_slot_item = None
         item_index = int(input("What item to equip?"))
+        item_in_backpack = self.inventory["backpack"].index(item_index)
         chosen_item = self.backpack[item_index-1]
 
         if isinstance(chosen_item, Weapon):
