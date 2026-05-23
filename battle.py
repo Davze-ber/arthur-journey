@@ -20,19 +20,20 @@ print(ui.print_titles("Are you ready to go on the adventure?"))
 #     def increment_turn(self):
 #         self.turn += 1
 #         return self.turn
+
 # Player Stats
 player = Player(name="Arthur", health=999,strength=3,agility=1, intelligence=1, defence=2,speed=2,level=1,experience=0, resource_type="rage")
 
 actions.show_menu(player)
 
-
+44
 
 ui.print_bot_layer()
 
  
 
 
-
+4
 
 
 

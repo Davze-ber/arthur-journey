@@ -14,6 +14,7 @@ class Counter:
 
 
 def combat(player, allies, enemy):
+
    # Player and allies team
    player_team = [player] + (allies if allies else [])
    player_team_size = len(player_team)
@@ -87,7 +88,7 @@ def combat(player, allies, enemy):
       
    if len(player_team) >= 1 and len(enemy_team) == 0:
       player.gain_experience(total_exp)
-      player.gold += gold_loot
+      player.inventory["gold"] += gold_loot
       player.inventory["backpack"].extend(item_loot)
       print(f"Enemies were defeated!")
       return "Victory"

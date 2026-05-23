@@ -1,5 +1,5 @@
 class Ability():
-    def __init__(self, name: str, resource: str, cost: int, main_stat: str, second_stat:str, primary_ratio: int, secondary_ratio:int,description: str):
+    def __init__(self, name: str, resource: str, cost: int, main_stat: str, second_stat:str, primary_ratio: float, secondary_ratio:float, description: str):
         self.name = name
         cost.resource  = resource 
         self.cost = cost
@@ -13,15 +13,15 @@ class Ability():
 
     @property
     def category(self) -> str:
-        if main_stat in ["strenght, agility"]:
+        if self.main_stat in ["strenght, agility"]:
             return "Physical"
-        elif main_stat == "intelligence":
+        elif self.main_stat == "intelligence":
             return "Magical"
         else:
             return "Other"
 
     
-    def damage(self, unit: Character) -> int:
+    def damage(self, unit) -> int:
         weapon_value = getattr(unit.gear.get("main_hand"), "damage", 0)
         primary_value = unit.total_stats[self.main_stat] * self.primary_ratio
         secondary_value = unit.total_stats[self.second_stat] * self.secondary_ratio
@@ -29,4 +29,8 @@ class Ability():
 
         return int(primary_value + secondary_value + weapon_value)
 
-    def subtracting_cost(self, unit:)
+    def can_cast(self) -> bool:
+        return self.current_resource >= self.cost
+
+    def apply_cost(self, unit) -> None:
+        unit.current_resource = max(0, unit.current_resource - self.cost) 

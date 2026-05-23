@@ -72,14 +72,23 @@ def print_row(unit):
     middle_space = 14
     stats_space = 3
     title_space = 12
+    column_space = 3 * " "
+
+    head_name = unit.gear["head"].name if unit.gear["head"] else "Empty"
+    chest_name = unit.gear["chest"].name if unit.gear["chest"] else "Empty"
+    legs_name = unit.gear["legs"].name if unit.gear["legs"] else "Empty"
+    main_name = unit.gear["main_hand"].name if unit.gear["main_hand"] else "Empty"
+    off_name = unit.gear["off_hand"].name if unit.gear["off_hand"] else "Empty"
+    gear_lst = [head_name,chest_name,legs_name,main_name,off_name]
+
     print(f"{left_side}╔{"═"*middle_space}╦{"═"*middle_space}╗")
     print(f"{left_side}║ {"Attributes":^{title_space}} ║ {"Total":^{title_space}} ║")
-    for stat_name in unit.core_stats:
+    
+    for stat_name, gear in zip(unit.core_stats, gear_lst):
         total_values = unit.total_stats.get(stat_name, 0)
         core_values = unit.core_stats.get(stat_name, 0)
         bonus_values = unit.bonus_stats.get(stat_name, 0)
         print(f"{left_side}╠{"═"*middle_space}╬{"═"*middle_space}╣")
-        print(f"{left_side}║ {stat_name.capitalize():<13}║ {total_values:^{stats_space}}({core_values:^{stats_space}}+{bonus_values:^{stats_space}}) ║")
+        print(f"{left_side}║ {stat_name.capitalize():<13}║ {total_values:^{stats_space}}({core_values:^{stats_space}}+{bonus_values:^{stats_space}}) ║{column_space}║ {gear}")
     print(f"{left_side}╚{"═"*middle_space}╩{"═"*middle_space}╝")
 
-print(len("╔══════════════════════════════╗"))

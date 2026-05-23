@@ -11,7 +11,7 @@ def show_menu(player):
         # options show_player_gear_and_inventory(), show_stats(), equip()
         ui.print_menu("1. Show Stats", "2. Show Gear & Inv", "3. Equip", "4. Depart")
         print(f"{ui.bot_border_char*BOX_WIDTH}")
-        player_option = input().center(BOX_WIDTH).strip().lower()
+        player_option = input().center(BOX_WIDTH ).strip().lower()
         print(f"{ui.top_border_char*BOX_WIDTH}")
         if player_option == "1":
             ui.print_row(player)

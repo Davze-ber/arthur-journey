@@ -75,6 +75,8 @@ class Player(Character):
         else:
             while True:
                 try:
+                    for index, enemy in enumerate(enemy_team):
+                        print(f"{index + 1}. {enemy.name} HP: {enemy.current_health}/{enemy.max_health}")
                     choice = int(input("Which enemy to attack"))
                     target = (enemy_team[choice - 1])
                     break
@@ -84,14 +86,14 @@ class Player(Character):
             return [target]
 
 
-def take_a_rest(self, at_inn=False):
-    percentage = 1 if at_inn else 0.5
-    rest_healing = round(self.max_health * percentage)
-    if self.current_health + rest_healing <= self.max_health:
-        self.current_health += rest_healing
-    else:
-        self.current_health = self.max_health
-    print(f"{self.name} recovered {rest_healing} health")
+    def take_a_rest(self, at_inn=False):
+        percentage = 1 if at_inn else 0.5
+        rest_healing = round(self.max_health * percentage)
+        if self.current_health + rest_healing <= self.max_health:
+            self.current_health += rest_healing
+        else:
+            self.current_health = self.max_health
+        print(f"{self.name} recovered {rest_healing} health")
 
     def gain_experience(self, total_exp):
         self.experience += total_exp
@@ -100,29 +102,29 @@ def take_a_rest(self, at_inn=False):
     def level_up(self):
         match self.experience:
             case exp if exp >= 30:
-               self.level  = 4
-               self.max_health += 5
-               self.current_health +5
-               self.power += 4
-               self.defence += 2
-               self.speed += 1
+                self.level  = 4
+                self.max_health += 5
+                self.current_health +=5
+                self.power += 4
+                self.defence += 2
+                self.speed += 1
 
             case exp if exp >= 15:
-               self.level = 3
-               self.max_health += 5
-               self.current_health +5
-               self.power += 1
-               self.defence += 2
-               self.speed += 3
+                self.level = 3
+                self.max_health += 5
+                self.current_health +=5
+                self.power += 1
+                self.defence += 2
+                self.speed += 3
 
             case exp if exp >= 5:
-               self.level =2
-               self.max_health += 5
-               self.current_health +5
-               self.power += 2
-               self.defence += 1
-               self.speed += 2
-             
+                self.level =2
+                self.max_health += 5
+                self.current_health +=5
+                self.power += 2
+                self.defence += 1
+                self.speed += 2
+                
         return self.level,self.max_health, self.power,self.defence, self.speed
 
 
