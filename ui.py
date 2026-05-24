@@ -92,3 +92,4 @@ def print_row(unit):
         print(f"{left_side}║ {stat_name.capitalize():<13}║ {total_values:^{stats_space}}({core_values:^{stats_space}}+{bonus_values:^{stats_space}}) ║{column_space}║ {gear}")
     print(f"{left_side}╚{"═"*middle_space}╩{"═"*middle_space}╝")
 
+"still need to update"
