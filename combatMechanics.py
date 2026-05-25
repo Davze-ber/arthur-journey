@@ -1,6 +1,6 @@
-import time, ui, actions
+import time, ui, playerActions
 from constance import BOX_WIDTH, BUTTON_WIDTH
-from player import Player
+from playerCharacter import Player
 from enemies import Enemy, enemies_dict
 from maps import plains
 from typing import Type
@@ -120,7 +120,7 @@ def enter_the_map(player, allies, map):
       result = combat(player, allies, current_enemies)
       
       if result == "Victory":
-         actions.after_a_fight(player)
+         playerActions.after_a_fight(player)
       elif result == "Defeat":
          print("You are wounded! You must retreat!")
          player.take_a_rest(at_inn=True)

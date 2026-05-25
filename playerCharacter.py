@@ -1,12 +1,12 @@
 import random
 from character import Character
 from items import Item, Weapon, Armor
-from item_list import item_list,weapon_dict
+from itemsDict import item_list,weapon_dict
 from constance import BOX_WIDTH
 
 class Player(Character):
-    def __init__(self, name: str, health: int, strength: int, agility: int, intelligence: int, defence: int, speed: int, level: int, experience: int, resource_type: str):
-        super().__init__(name, health, strength, agility, intelligence, defence, speed, level, experience, resource_type)
+    def __init__(self, name: str, resource_type: str, health: int, strength: int, agility: int, intelligence: int, defence: int, speed: int, level: int, experience: int):
+        super().__init__(name, resource_type, health, strength, agility, intelligence, defence, speed, level, experience )
         self.faction:str = "player"
         self.allies = []
         self.gear: dict[str,Any]= {
@@ -33,7 +33,7 @@ class Player(Character):
         gear_slot_item = None
         item_index = int(input("What item to equip?"))
         item_in_backpack = self.inventory["backpack"].index(item_index)
-        chosen_item = self.backpack[item_index-1]
+        chosen_item = self.backpack[item_in_backpack]
 
         if isinstance(chosen_item, Weapon):
             if self.gear["main_hand"] == None:

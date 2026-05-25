@@ -1,6 +1,6 @@
-import time, random, combat, enemies, actions, maps
-from item_list import item_list, weapon_dict
-from player import Player
+import time, random, combatMechanics, enemies, playerActions, maps
+from itemsDict import item_list, weapon_dict
+from playerCharacter import Player
 from items import Item, Potion, Weapon
 from constance import BOX_WIDTH, BUTTON_WIDTH
 import ui
@@ -14,13 +14,13 @@ def show_menu(player):
         player_option = input().center(BOX_WIDTH ).strip().lower()
         print(f"{ui.top_border_char*BOX_WIDTH}")
         if player_option == "1":
-            ui.print_row(player)
+            ui.show_unit_stats_buffs_debuffs(player)
         elif player_option == "2":
-            player.show_player_gear_and_inventory()
+            ui.show_unit_gear_inv(player)
         elif player_option == "3":
             player.equip()
         elif player_option == "4":
-            combat.enter_the_map(player,[], maps.plains)
+            combatMechanics.enter_the_map(player,[], maps.plains)
             # while True:
             #     confirm = input("Reade to explore the world: (yes/no)").strip().lower()
                 

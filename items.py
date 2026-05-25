@@ -5,15 +5,27 @@ class Item:
         self.value = value
         self.tag = tag
 
-class Weapon(Item):
-    def __init__(self, name: str, category: str, tag: str, value: int, damage: int):
+class Equippable(Item):
+    def __init__(self, name: str, category: str, tag: str, value: int = 0, health:int = 0, strength:int = 0, agility:int = 0, intelligence:int = 0, defence:int = 0, speed:int = 0):
         super().__init__(name, category, tag, value)
+        self.stats: dict[str,int] = {
+            "health" : health,
+            "strength" : strength,
+            "agility" : agility,
+            "intelligence" : intelligence,
+            "defence" : defence,
+            "speed" : speed
+        }
+
+class Weapon(Equippable):
+    def __init__(self, name: str, category: str, tag: str, value: int = 0, health:int = 0, strength:int = 0, agility:int = 0, intelligence:int = 0, defence:int = 0, speed:int = 0, damage: int = 0):
+        super().__init__(name, category, tag, value, health, strength, agility, intelligence, defence, speed)
         self.damage = damage
 
-class Armor(Item):
-    def __init__(self, name: str, category: str, tag: str, value: int, armor: int):
-        super().__init__(name, category, tag, value)
-        self.armor = armor
+class Armor(Equippable):
+    def __init__(self, name: str, category: str, tag: str, value: int = 0, health:int = 0, strength:int = 0, agility:int = 0, intelligence:int = 0, defence:int = 0, speed:int = 0):
+        super().__init__(name, category, tag, value, health, strength, agility, intelligence, defence, speed)
+        
 
 class Potion(Item):
     def __init__(self, name: str, category: str,tag: str, value: int, healing_amount: int):

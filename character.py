@@ -6,7 +6,8 @@ from items import Item, Weapon, Potion, Armor
 stats_lst: list[str] = ["health", "strength", "agility", "intelligence", "defence", "speed"]
 
 class Character:
-    def __init__(self, name: str, health: int, strength: int, agility: int, intelligence: int, defence: int, speed: int, level: int, experience: int, resource_type: str):
+    def __init__(self, name: str, resource_type: str,
+                 health: int = 0,strength: int = 0, agility: int = 0, intelligence: int = 0, defence: int = 0, speed: int = 0, level: int = 0, experience: int = 0):
         self.name = name
         self.is_alive: bool = True
         self.is_stunned: bool = False

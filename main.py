@@ -1,8 +1,8 @@
 import time, random, ui, enemies
-import actions, combat
-from item_list import item_list, weapon_dict
+import playerActions, combatMechanics
+from itemsDict import item_list, weapon_dict
 from enemies import enemies_dict
-from player import Player
+from playerCharacter import Player
 from items import Item, Potion, Weapon
 from constance import BOX_WIDTH, BUTTON_WIDTH
 
@@ -22,18 +22,13 @@ print(ui.print_titles("Are you ready to go on the adventure?"))
 #         return self.turn
 
 # Player Stats
-player = Player(name="Arthur", health=999,strength=3,agility=1, intelligence=1, defence=2,speed=2,level=1,experience=0, resource_type="rage")
+player = Player(name="Arthur", resource_type="rage", health=999,strength=3,agility=1, intelligence=1, defence=2,speed=2,level=1,experience=0)
 
-actions.show_menu(player)
+playerActions.show_menu(player)
 
-44
 
 ui.print_bot_layer()
 
- 
-
-
-4
 
 
 
