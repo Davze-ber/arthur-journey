@@ -30,9 +30,6 @@ def print_titles(title):
   
     return f"{left_side}{title:^{middle}}{right_side}"
 
-
-
-
 def print_button(text):
     leght_text = len(text)
     count_space = BUTTON_WIDTH - len(left_side + right_side + text)
@@ -126,7 +123,11 @@ def show_inventory(unit):
             item_value = item_obj.value
 
 #  XXXX IN PROGRESS XXXX
-
+def get_stat(obj, name):
+    if not obj: 
+        return "-"
+    value = obj.stats.get(name, 0)
+    return value if value > 0 else "-"
 
 def show_unit_gear_inv(unit): 
     gear_slot_w = GEAR_SLOT
@@ -173,41 +174,30 @@ def show_unit_gear_inv(unit):
     for gear_slot_label, gear_slot, equippable_item in zip_longest(gear_lst, unit.gear.keys(), equippable_lst):
         # Unit Gear
         gear_obj = unit.gear.get(gear_slot) if gear_slot else None
-        def get_gear_stat(name):
-            if not gear_obj: 
-                return "-"
-            value = gear_obj.stats.get(name, 0)
 
-            return value if value > 0 else "-"
         display_gear_label = gear_slot_label or " "
 
         gear_name = gear_obj.name if gear_obj else "---"
-        get_gear_health = get_gear_stat("health")
-        get_gear_strength = get_gear_stat("strength")
-        get_gear_agility = get_gear_stat("agility")
-        get_gear_intelligence = get_gear_stat("intelligence")
-        get_gear_defence = get_gear_stat("defence")
-        get_gear_speed = get_gear_stat("speed")
+        get_gear_health = get_stat(gear_obj,"health")
+        get_gear_strength = get_stat(gear_obj,"strength")
+        get_gear_agility = get_stat(gear_obj,"agility")
+        get_gear_intelligence = get_stat(gear_obj,"intelligence")
+        get_gear_defence = get_stat(gear_obj,"defence")
+        get_gear_speed = get_stat(gear_obj,"speed")
 
         if isinstance(gear_obj, Weapon):
             gear_weapon_damage = gear_obj.damage if gear_obj.damage > 0 else "-"
         else: 
             gear_weapon_damage = "-"
         
-        def get_equippable_stat(name):
-            if not equippable_item: 
-                return "-"
-            value = equippable_item.stats.get(name, 0)
-            return value if value > 0 else "-"
-        
         display_equippable_label = equippable_item.name if equippable_item else " "
 
-        get_equippable_health_num = get_equippable_stat("health")
-        get_equippable_strength_num = get_equippable_stat("strength")
-        get_equippable_agility_num = get_equippable_stat("agility")
-        get_equippable_intelligence_num = get_equippable_stat("intelligence")
-        get_equippable_defence_num = get_equippable_stat("defence")
-        get_equippable_speed_num = get_equippable_stat("speed")
+        get_equippable_health_num = get_stat(equippable_item,"health")
+        get_equippable_strength_num = get_stat(equippable_item,"strength")
+        get_equippable_agility_num = get_stat(equippable_item,"agility")
+        get_equippable_intelligence_num = get_stat(equippable_item,"intelligence")
+        get_equippable_defence_num = get_stat(equippable_item,"defence")
+        get_equippable_speed_num = get_stat(equippable_item,"speed")
 
         if isinstance(equippable_item, Weapon):
             equippable_weapon_damage = equippable_item.damage if equippable_item.damage > 0 else "-"
@@ -240,5 +230,3 @@ def show_unit_gear_inv(unit):
         # Bottom Part
         print(f"{left_side}{column_space_w}{gear_table_into_txt}{column_space_w}{equippable_table_into}{column_space_w}{right_side}")
     print(f"{left_side}{column_space_w}{gear_bottom_border}{column_space_w}{equippable_bottom_border}{column_space_w}{right_side}")
-
-print(len("   1  "))
