@@ -28,33 +28,7 @@ class Player(Character):
 
         
     
-    def equip(self):
-
-        self.show_player_gear_and_inventory()
-        gear_slot_item = None
-        item_index = int(input("What item to equip?"))
-        item_in_backpack = self.inventory["backpack"].index(item_index)
-        chosen_item = self.backpack[item_in_backpack]
-
-        if isinstance(chosen_item, Weapon):
-            if self.gear["main_hand"] == None:
-                self.gear["main_hand"] = chosen_item
-                self.backpack.pop(item_index-1)
-            else:
-                gear_slot_item = self.gear["main_hand"]
-                self.gear["main_hand"] = chosen_item
-                self.backpack.pop(item_index-1)
-                self.backpack.append(gear_slot_item)
-        elif isinstance(chosen_item, Armor):
-            if self.gear["main_hand"] == None:
-                self.gear["main_hand"] = chosen_item
-                self.backpack.pop(chosen_item)
-            else:
-                gear_slot_item = self.gear["main_hand"]
-                self.gear["main_hand"] = chosen_item
-                self.backpack.pop(item_index-1)
-                self.backpack.append(gear_slot_item)        
-
+    
     def show_player_gear_and_inventory(self):
         head_name = self.gear["head"].name if self.gear["head"] else "Empty"
         chest_name = self.gear["chest"].name if self.gear["chest"] else "Empty"

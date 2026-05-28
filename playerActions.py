@@ -1,24 +1,27 @@
 import time, random, combatMechanics, enemies, playerActions, maps
 from itemsDict import item_list, weapon_dict
 from playerCharacter import Player
-from items import Item, Potion, Weapon
+from items import Item, Potion, Weapon, Armor, Equippable
 from constance import BOX_WIDTH, BUTTON_WIDTH
-import ui
+from character import Character
+from enemies import Enemy
+from playerCharacter import Player
+import visuals
  
 def show_menu(player):
     menu = True
     while menu:
         # options show_player_gear_and_inventory(), show_stats(), equip()
-        ui.print_menu("1. Show Stats", "2. Show Gear & Inv", "3. Equip", "4. Depart")
-        print(f"{ui.bot_border_char*BOX_WIDTH}")
+        visuals.print_menu("1. Show Stats", "2. Show Inv", "3. Gear & Equip", "4. Depart")
+        print(f"{visuals.bot_border_char*BOX_WIDTH}")
         player_option = input().center(BOX_WIDTH ).strip().lower()
-        print(f"{ui.top_border_char*BOX_WIDTH}")
+        print(f"{visuals.top_border_char*BOX_WIDTH}")
         if player_option == "1":
-            ui.show_unit_stats_buffs_debuffs(player)
+            visuals.show_unit_stats_buffs_debuffs(player)
         elif player_option == "2":
-            ui.show_unit_gear_inv(player)
+            visuals.show_unit_gear_inv(player)
         elif player_option == "3":
-            ui.show_inventory(player)
+            visuals.show_inventory(player)
         elif player_option == "4":
             combatMechanics.enter_the_map(player,[], maps.plains)
             # while True:
@@ -33,6 +36,33 @@ def show_menu(player):
             #     time.sleep(1)
 
 
+def equip(unit):
+        gear_lst = list(filter(lambda item: isinstance(item, Equippable), unit.backpack))
+
+        gear_slot_item = None
+        item_index = int(input("What item to equip?"))
+        item_in_backpack = unit.backpack.index(item_index)
+        chosen_item = unit.backpack[item_in_backpack]
+
+        if isinstance(chosen_item, Weapon):
+            if unit.gear["main_hand"] == None:
+                unit.gear["main_hand"] = chosen_item
+                unit.backpack.pop(item_index-1)
+            else:
+                gear_slot_item = unit.gear["main_hand"]
+                unit.gear["main_hand"] = chosen_item
+                unit.backpack.pop(item_index-1)
+                unit.backpack.append(gear_slot_item)
+
+        elif isinstance(chosen_item, Armor):
+            if unit.gear["main_hand"] == None:
+                unit.gear["main_hand"] = chosen_item
+                unit.backpack.pop(chosen_item)
+            else:
+                gear_slot_item = unit.gear["main_hand"]
+                unit.gear["main_hand"] = chosen_item
+                unit.backpack.pop(item_index-1)
+                unit.backpack.append(gear_slot_item)        
 
 
 
@@ -41,7 +71,7 @@ def after_a_fight(player):
     while after_a_fight:
             player_decision = input("Do you want to to rest or continue?\n1: Check Stats 2: Show Gear and Inventory 3: Equip 4: Rest 5.Continue\nYour choise is: ")
             if player_decision == "1":
-                ui.print_row(player)
+                visuals.print_row(player)
             elif player_decision == "2":
                 player.show_player_gear_and_inventory()
             elif player_decision == "3":

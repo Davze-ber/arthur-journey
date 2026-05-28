@@ -1,4 +1,4 @@
-import time, ui, playerActions
+import time, visuals, playerActions
 from constance import BOX_WIDTH, BUTTON_WIDTH
 from playerCharacter import Player
 from enemies import Enemy, enemies_dict

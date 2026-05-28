@@ -122,7 +122,6 @@ def show_inventory(unit):
             item_tag = item_obj.tag
             item_value = item_obj.value
 
-#  XXXX IN PROGRESS XXXX
 def get_stat(obj, name):
     if not obj: 
         return "-"
@@ -230,3 +229,12 @@ def show_unit_gear_inv(unit):
         # Bottom Part
         print(f"{left_side}{column_space_w}{gear_table_into_txt}{column_space_w}{equippable_table_into}{column_space_w}{right_side}")
     print(f"{left_side}{column_space_w}{gear_bottom_border}{column_space_w}{equippable_bottom_border}{column_space_w}{right_side}")
+
+
+def combat_show_units_hp_resources(player_team, enemy_team):
+    for player_unit, enemy_unit in ((player_team + enemy_team)):
+
+        player_unit_name_txt = player_unit.name
+        player_unit_current_health_num = player_unit.current_health
+        player_unit_max_health_num = player_unit.max_health
+

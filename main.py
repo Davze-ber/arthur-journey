@@ -1,4 +1,4 @@
-import time, random, ui, enemies
+import time, random, visuals, enemies
 import playerActions, combatMechanics
 from itemsDict import item_list, weapon_dict
 from enemies import enemies_dict
@@ -9,10 +9,10 @@ from constance import BOX_WIDTH, BUTTON_WIDTH
 
 
 
-ui.print_top_layer()
-print(ui.print_titles("Welcome!"))
-print(ui.print_titles("Nice to meet you, Arthur!"))
-print(ui.print_titles("Are you ready to go on the adventure?"))
+visuals.print_top_layer()
+print(visuals.print_titles("Welcome!"))
+print(visuals.print_titles("Nice to meet you, Arthur!"))
+print(visuals.print_titles("Are you ready to go on the adventure?"))
 
 # class Counter:
 #     def __init__(self):
@@ -27,7 +27,7 @@ player = Player(name="Arthur", resource_type="rage", health=999,strength=3,agili
 playerActions.show_menu(player)
 
 
-ui.print_bot_layer()
+visuals.print_bot_layer()
 
 
 
