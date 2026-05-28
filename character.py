@@ -29,6 +29,7 @@ class Character:
         self.gear: dict[str,Any] = {
             "head": None,
             "chest": None,
+            "neck": None,
             "legs": None,
             "main_hand": None,
             "off_hand":None,

@@ -12,8 +12,9 @@ class Player(Character):
         self.gear: dict[str,Any]= {
            "head": None,
            "chest": None,
+           "neck" : None,
            "legs": None,
-           "main_hand": None ,
+           "main_hand":  weapon_dict["Wood Stick"]() ,
            "off_hand":None,
                    }
         

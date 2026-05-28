@@ -18,7 +18,7 @@ def show_menu(player):
         elif player_option == "2":
             ui.show_unit_gear_inv(player)
         elif player_option == "3":
-            player.equip()
+            ui.show_inventory(player)
         elif player_option == "4":
             combatMechanics.enter_the_map(player,[], maps.plains)
             # while True:
