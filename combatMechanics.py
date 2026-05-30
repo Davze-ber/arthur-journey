@@ -4,6 +4,7 @@ from playerCharacter import Player
 from enemies import Enemy, enemies_dict
 from maps import plains
 from typing import Type
+
 class Counter:
     def __init__(self):
         self.turn = 0
@@ -11,10 +12,7 @@ class Counter:
         self.turn += 1
         return self.turn
 
-
-
 def combat(player, allies, enemy):
-
    # Player and allies team
    player_team = [player] + (allies if allies else [])
    player_team_size = len(player_team)
@@ -32,11 +30,7 @@ def combat(player, allies, enemy):
    while len(player_team) > 0 and len(enemy_team) > 0:
       unit_order = sorted((player_team + enemy_team), key = lambda unit: unit.total_stats["speed"], reverse=True)
 
-      for player_unit in player_team:
-         print(f"{player_unit.name} HP: {player_unit.current_health}")
-               
-      for enemy_unit in enemy_team:
-         print(f"{enemy_unit.name} HP: {enemy_unit.current_health}")
+      visuals.combat_show_units_hp_resources(player_team, enemy_team)
 
       for unit in unit_order:
          if check_teams_if_empty(player_team, enemy_team):

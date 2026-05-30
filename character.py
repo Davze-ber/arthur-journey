@@ -28,8 +28,8 @@ class Character:
         }
         self.gear: dict[str,Any] = {
             "head": None,
-            "chest": None,
             "neck": None,
+            "chest": None,
             "legs": None,
             "main_hand": None,
             "off_hand":None,
@@ -42,6 +42,7 @@ class Character:
         self.debuff_lst: list[Any] = []
 
         self.current_health: int = self.total_stats["health"]
+        
         if self.resource_type == "rage":
             self.current_resource = 0
         else:

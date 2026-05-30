@@ -18,7 +18,8 @@ print(visuals.print_titles("Are you ready to go on the adventure?"))
 #     def __init__(self):
 #         self.turn = 0
 #     def increment_turn(self):
-#         self.turn += 1
+#         self.turn += 14
+
 #         return self.turn
 
 # Player Stats
@@ -28,8 +29,6 @@ playerActions.show_menu(player)
 
 
 visuals.print_bot_layer()
-
-
 
 
 

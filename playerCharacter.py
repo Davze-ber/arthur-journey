@@ -1,4 +1,4 @@
-import random
+import random, visuals
 from character import Character
 from items import Item, Weapon, Armor
 from itemsDict import item_list,weapon_dict
@@ -52,8 +52,10 @@ class Player(Character):
             while True:
                 try:
                     for index, enemy in enumerate(enemy_team):
-                        print(f"{index + 1}. {enemy.name} HP: {enemy.current_health}/{enemy.max_health}")
-                    choice = int(input("Which enemy to attack"))
+                        e_name_txt, e_hp_txt, e_hp_bar, e_res_txt, e_res_bar = visuals.format_unit_info(enemy)
+                        print(f"{index + 1}. {e_name_txt} {e_hp_txt} {e_hp_bar}{e_res_txt} {e_res_bar}", end=" ")
+                    print()
+                    choice = int(input("Which enemy to attack: "))
                     target = (enemy_team[choice - 1])
                     break
                 except(ValueError, IndexError):

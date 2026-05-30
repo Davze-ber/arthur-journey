@@ -19,11 +19,24 @@ def show_menu(player):
         if player_option == "1":
             visuals.show_unit_stats_buffs_debuffs(player)
         elif player_option == "2":
-            visuals.show_unit_gear_inv(player)
-        elif player_option == "3":
             visuals.show_inventory(player)
+        elif player_option == "3":
+            while True:
+                visuals.show_unit_gear_inv(player, player)
+                visuals.print_menu("1. Change Character", "2. Equiq Item", "3. Unequip Item", "4. Back")
+                player_choice = input(">")
+                if player_choice == "1":
+                    pass
+                elif player_choice == "2":
+                    equippable_lst = list(filter(lambda item : isinstance(item, Equippable), player_backpack.backpack))
+                    player_equip_choice = input()
+                elif player_choice == "3":
+                    pass
+                elif player_choice == "4":
+                    break
+
         elif player_option == "4":
-            combatMechanics.enter_the_map(player,[], maps.plains)
+            combatMechanics.enter_the_map(player,player.allies, maps.plains)
             # while True:
             #     confirm = input("Reade to explore the world: (yes/no)").strip().lower()
                 
