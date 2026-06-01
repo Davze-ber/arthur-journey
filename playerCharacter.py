@@ -49,9 +49,11 @@ class Player(Character):
             self.basic_attack(target)
             return [target]
         else:
+    
             while True:
                 try:
                     for index, enemy in enumerate(enemy_team):
+
                         e_name_txt, e_hp_txt, e_hp_bar, e_res_txt, e_res_bar = visuals.format_unit_info(enemy)
                         print(f"{index + 1}. {e_name_txt} {e_hp_txt} {e_hp_bar}{e_res_txt} {e_res_bar}", end=" ")
                     print()
@@ -104,13 +106,6 @@ class Player(Character):
                 self.speed += 2
                 
         return self.level,self.max_health, self.power,self.defence, self.speed
-
-
-
-
-
-
-
 
 
 

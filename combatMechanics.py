@@ -2,7 +2,7 @@ import time, visuals, playerActions
 from constance import BOX_WIDTH, BUTTON_WIDTH
 from playerCharacter import Player
 from enemies import Enemy, enemies_dict
-from maps import plains
+from maps import plains, world_map
 from typing import Type
 
 class Counter:
@@ -39,8 +39,10 @@ def combat(player, allies, enemy):
          if unit.is_alive == False:
             if unit in player_team:
                player_team.remove(unit)
-            elif unit in enemy_team:
+
+            if unit in enemy_team:
                enemy_team.remove(unit)
+
             if check_teams_if_empty(player_team, enemy_team):
                break
             
@@ -65,8 +67,9 @@ def combat(player, allies, enemy):
 
                         target_loot = target.backpack if target.backpack else []
                         item_loot.extend(target_loot)
-                        if check_teams_if_empty(player_team, enemy_team):
-                         break
+                        
+                     if check_teams_if_empty(player_team, enemy_team):
+                        break
                  
                      
          elif isinstance(unit, Enemy):
@@ -81,10 +84,10 @@ def combat(player, allies, enemy):
 
       
    if len(player_team) >= 1 and len(enemy_team) == 0:
+      print(f"Enemies were defeated!")
       player.gain_experience(total_exp)
       player.inventory["gold"] += gold_loot
-      player.inventory["backpack"].extend(item_loot)
-      print(f"Enemies were defeated!")
+      player.backpack.extend(item_loot)
       return "Victory"
    return "Defeat"
       
@@ -103,17 +106,24 @@ def player_combat_choice(player, player_team, enemy_team):
 
 
 def enter_the_map(player, allies, map):
-   current_map = map
- 
-   for current_floor in current_map:
-      print(f"Entering {current_floor['location']} Floor: {current_floor['floor']}")
-      floor_enemies =  current_floor["enemies"]
+   current_map = world_map[map]
+   map_floors = current_map["floors"]
+   map_name = current_map.get("name", "")
+   map_recommended_level = current_map.get("recommended_level", "")
+   print(f"Entering {map_name}, Recommended level: {map_recommended_level}")
+   for current_floor in map_floors.values():
+      floor_level = current_floor["level"]
+      floor_enemies = current_floor["enemies"]
+   
+     
+      print(f"Floor: {floor_level}")
       
       current_enemies = [enemies_dict[enemy]() for enemy in floor_enemies]
 
       result = combat(player, allies, current_enemies)
       
       if result == "Victory":
+         current_floor["is_completed"] = True
          playerActions.after_a_fight(player)
       elif result == "Defeat":
          print("You are wounded! You must retreat!")

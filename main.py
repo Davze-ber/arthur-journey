@@ -23,7 +23,7 @@ print(visuals.print_titles("Are you ready to go on the adventure?"))
 #         return self.turn
 
 # Player Stats
-player = Player(name="Arthur", resource_type="rage", health=999,strength=3,agility=1, intelligence=1, defence=2,speed=2,level=1,experience=0)
+player = Player(name="Arthur", resource_type="mana", health=5,strength=3,agility=1, intelligence=1, defence=2,speed=2,level=1,experience=0)
 
 playerActions.show_menu(player)
 

@@ -1,6 +1,7 @@
 import random
 from typing import Any
 from items import Item, Weapon, Potion, Armor
+
  
 
 stats_lst: list[str] = ["health", "strength", "agility", "intelligence", "defence", "speed"]
@@ -131,7 +132,23 @@ class Character:
             target.current_health = 0
             target.is_alive = False
 
-  
+    def apply_potion_effect(self, source) -> None:
+        if source.tag == "Rejuvenation" :
+            heal_amount = getattr(source, "healing_amount", 0)
+            self.current_health = min(self.current_health + heal_amount, self.max_health)
+
+            if self.resource_type == "mana":
+                mana_amount = getattr(source, "restore_mana", 0)
+                self.current_resource = min(self.current_resource + mana_amount, self.max_resource)
+
+        elif source.tag == "Health":
+            heal_amount = getattr(source, "healing_amount", 0)
+            self.current_health = min(self.current_health + heal_amount, self.max_health)
+
+        elif source.tag == "Mana":
+            if self.resource_type == "mana":
+                mana_amount = getattr(source, "restore_mana", 0)
+                self.current_resource = min(self.current_resource + mana_amount, self.max_resource)
 
     def use_potion(self) -> bool:
         potions = list(filter(lambda item: isinstance(item, Potion), self.backpack))
@@ -147,23 +164,20 @@ class Character:
         index_of_potion = int(input("Choose the Potion: "))
         chosen_potion = potions[index_of_potion - 1]
         
-        self.apply_healing(chosen_potion)
+        self.apply_potion_effect(chosen_potion)
         self.backpack.remove(chosen_potion)
 
-
-        print(f"{self.name} use {chosen_potion.name} and healed {chosen_potion.healing_amount}:")
+        if chosen_potion.tag == "Rejuvenation":
+            print(f"{self.name} use {chosen_potion.name} and healed {chosen_potion.healing_amount}: and restored {chosen_potion.restore_mana}")
+        elif chosen_potion.tag == "Health":
+            print(f"{self.name} use {chosen_potion.name} and healed {chosen_potion.healing_amount}:")
+        elif chosen_potion.tag == "Mana":
+            print(f"{self.name} use {chosen_potion.name} and healed {chosen_potion.restore_mana}:")
         return True
 
         
 
 def chance(success_rate: int) -> bool:
     return random.random() * 100 <= success_rate
-
-
-def apply_healing(self, source) -> None:
-    heal_amount = getattr(source, "healing_amount", 0)
-
-    self.current_health = min(self.current_health + heal_amount, self.max_health)
-
 
 

@@ -110,18 +110,18 @@ def show_unit_stats_buffs_debuffs(unit):
 def show_inventory(unit):
     equippable = [item for item in unit.inventory["backpack"] if isinstance(item, Equippable)]
     potions = [potion for potion in unit.inventory["backpack"] if isinstance(potion, Potion)] 
+    indexed_equippable = [(i+1, item) for i, item in enumerate(equippable)]
+    indexed_potions = [(i+1, potion) for i, potion in enumerate(potions)]
 
-    index_equippable = [(i+1, item) for i, item in enumerate(equippable)]
-    index_potions = [(i+1, potion) for i, potion in enumerate(potions)]
-     
-    for item, potion in zip_longest(index_equippable, index_potions):
-
-        item_index, item_obj = item
-        if item_obj:
-            item_name = item_obj.name
-            item_category = item_obj.category
-            item_tag = item_obj.tag
-            item_value = item_obj.value
+    for index, item in indexed_equippable:
+        item_index = index
+        item_name = item.name
+        print(f"{item_index}. {item_name}")
+        
+    for index, potion in indexed_potions:
+        potion_index = index
+        potion_name = potion.name
+        print(f"{potion_index}. {potion_name}")
 
 def get_stat(obj, name):
     if not obj: 

@@ -28,10 +28,12 @@ class Armor(Equippable):
         
 
 class Potion(Item):
-    def __init__(self, name: str, category: str,tag: str, value: int, healing_amount: int):
+    def __init__(self, name: str, category: str,tag: str, value: int, healing_amount: int = 0, restore_mana: int = 0):
         super().__init__(name, category,tag, value)
-
+       
         self.healing_amount = healing_amount
+        self.restore_mana = restore_mana
+        
 
 
 

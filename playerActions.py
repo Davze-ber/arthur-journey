@@ -7,6 +7,7 @@ from character import Character
 from enemies import Enemy
 from playerCharacter import Player
 import visuals
+from maps import world_map
  
 def show_menu(player):
     menu = True
@@ -28,7 +29,8 @@ def show_menu(player):
                 if player_choice == "1":
                     pass
                 elif player_choice == "2":
-                    equippable_lst = list(filter(lambda item : isinstance(item, Equippable), player_backpack.backpack))
+                    equippable_lst = list(filter(lambda item : isinstance(item, Equippable), player.backpack))
+                    print([equippable_lst])
                     player_equip_choice = input()
                 elif player_choice == "3":
                     pass
@@ -36,7 +38,16 @@ def show_menu(player):
                     break
 
         elif player_option == "4":
-            combatMechanics.enter_the_map(player,player.allies, maps.plains)
+            for i, map in enumerate(world_map.keys()):
+                map_name = map
+                print(f"{i+1}. {map_name.capitalize()}")
+                
+            map_choice = int(input("Where to go?: ")) -1
+            maps_lst = list(world_map.keys())
+            selected_map = maps_lst[map_choice]
+
+
+            combatMechanics.enter_the_map(player, player.allies, selected_map)
             # while True:
             #     confirm = input("Reade to explore the world: (yes/no)").strip().lower()
                 
