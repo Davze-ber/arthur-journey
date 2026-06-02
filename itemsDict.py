@@ -10,8 +10,8 @@ item_list = {
    }
 
 weapon_dict = {
-    "Wood Stick" : lambda: Weapon("Wooden Stick", "Weapon", "Main-Hand", 0, damage=1),
-    "Axe" : lambda: Weapon("Axe", "Weapon", "Two-Hand", 10, damage=2),
+    "Wood Stick" : lambda: Weapon("Wooden Stick", "Weapon", "Main-Hand", 0, weapon_damage=1),
+    "Axe" : lambda: Weapon("Axe", "Weapon", "Two-Hand", 10, weapon_damage=2),
 }
 
 

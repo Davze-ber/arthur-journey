@@ -4,11 +4,11 @@ from items import Item, Weapon, Potion, Armor
 
  
 
-stats_lst: list[str] = ["health", "strength", "agility", "intelligence", "defence", "speed"]
+stats_lst: list[str] = ["health", "strength", "agility", "intelligence", "defense", "speed"]
 
 class Character:
     def __init__(self, name: str, resource_type: str,
-                 health: int = 0,strength: int = 0, agility: int = 0, intelligence: int = 0, defence: int = 0, speed: int = 0, level: int = 0, experience: int = 0):
+                 health: int = 0,strength: int = 0, agility: int = 0, intelligence: int = 0, defense: int = 0, speed: int = 0, level: int = 0, experience: int = 0):
         self.name = name
         self.is_alive: bool = True
         self.is_stunned: bool = False
@@ -24,7 +24,7 @@ class Character:
             "strength" : strength,
             "agility" : agility,
             "intelligence" : intelligence,
-            "defence" : defence,
+            "defense" : defense,
             "speed" : speed,
         }
         self.gear: dict[str,Any] = {
@@ -41,7 +41,7 @@ class Character:
         }
         self.buff_lst: list[Any] = []    
         self.debuff_lst: list[Any] = []
-
+        self.spellbook: list[Any] = []
         self.current_health: int = self.total_stats["health"]
         
         if self.resource_type == "rage":
@@ -56,7 +56,7 @@ class Character:
             "strength" : 0,
             "agility" : 0,
             "intelligence" : 0,
-            "defence" : 0,
+            "defense" : 0,
             "speed" : 0,
         }
         for slot, item in self.gear.items():
@@ -125,7 +125,7 @@ class Character:
         else:
             weapon_damage = 0
         incoming_damage = self.total_stats["strength"] + weapon_damage + random.randint(-2,+2)
-        damage_taken = max(0, incoming_damage - target.total_stats["defence"])
+        damage_taken = max(0, incoming_damage - target.total_stats["defense"])
         target.current_health -= damage_taken
         print(f"{self.name} dealt {damage_taken} damage to {target.name}!")
         if target.current_health <= 0:

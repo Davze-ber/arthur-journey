@@ -1,7 +1,7 @@
 class Ability():
-    def __init__(self, name: str, resource: str, cost: int, main_stat: str, second_stat:str, primary_ratio: float, secondary_ratio:float, description: str):
+    def __init__(self, name: str, resource: str, cost: int, main_stat: str = 0, second_stat:str = 0, primary_ratio: float = 0, secondary_ratio:float = 0, description: str = ""):
         self.name = name
-        cost.resource  = resource 
+        self.resource  = resource 
         self.cost = cost
         self.main_stat = main_stat
         self.second_stat = second_stat
@@ -22,15 +22,21 @@ class Ability():
 
     
     def damage(self, unit) -> int:
-        weapon_value = getattr(unit.gear.get("main_hand"), "damage", 0)
+        bonus_damage = 0
         primary_value = unit.total_stats[self.main_stat] * self.primary_ratio
         secondary_value = unit.total_stats[self.second_stat] * self.secondary_ratio
+        if unit.resource_type in ["rage", "energy"]: 
+            bonus_damage = getattr(unit.gear.get("main_hand"), "weapon_damage", 0)
+          
+        if unit.resource_type in ["mana"]:
+            bonus_damage = getattr(unit.gear.get("main_hand"), "spell_damage", 0)
 
+        return int(primary_value + secondary_value + bonus_damage)
 
-        return int(primary_value + secondary_value + weapon_value)
+        
 
-    def can_cast(self) -> bool:
-        return self.current_resource >= self.cost
+    def can_cast(self, unit) -> bool:
+        return unit.current_resource >= self.cost
 
     def apply_cost(self, unit) -> None:
         unit.current_resource = max(0, unit.current_resource - self.cost) 

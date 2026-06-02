@@ -182,7 +182,7 @@ def show_unit_gear_inv(unit, player_backpack):
         get_gear_strength = get_stat(gear_obj,"strength")
         get_gear_agility = get_stat(gear_obj,"agility")
         get_gear_intelligence = get_stat(gear_obj,"intelligence")
-        get_gear_defence = get_stat(gear_obj,"defence")
+        get_gear_defense = get_stat(gear_obj,"defense")
         get_gear_speed = get_stat(gear_obj,"speed")
 
         if isinstance(gear_obj, Weapon):
@@ -196,7 +196,7 @@ def show_unit_gear_inv(unit, player_backpack):
         get_equippable_strength_num = get_stat(equippable_item,"strength")
         get_equippable_agility_num = get_stat(equippable_item,"agility")
         get_equippable_intelligence_num = get_stat(equippable_item,"intelligence")
-        get_equippable_defence_num = get_stat(equippable_item,"defence")
+        get_equippable_defense_num = get_stat(equippable_item,"defense")
         get_equippable_speed_num = get_stat(equippable_item,"speed")
 
         if isinstance(equippable_item, Weapon):
@@ -209,7 +209,7 @@ def show_unit_gear_inv(unit, player_backpack):
                                 f"{gear_name:<{gear_item_name_w}} ║{gear_weapon_damage:^{stats_space_w}}║"
                                 f"{get_gear_health:^{stats_space_w}}║{get_gear_strength:^{stats_space_w}}║"
                                 f"{get_gear_agility:^{stats_space_w}}║{get_gear_intelligence:^{stats_space_w}}║"
-                                f"{get_gear_defence:^{stats_space_w}}║{get_gear_speed:^{stats_space_w}}║")
+                                f"{get_gear_defense:^{stats_space_w}}║{get_gear_speed:^{stats_space_w}}║")
         
         gear_table_into_txt =   f"║ {display_gear_label:<{gear_slot_name_w}} ║ {gear_stats_columns_txt}"
 
@@ -217,7 +217,7 @@ def show_unit_gear_inv(unit, player_backpack):
         equippable_stats_columns = (
                                     f"{equippable_weapon_damage:^{stats_space_w}}║{get_equippable_health_num:^{stats_space_w}}║"
                                     f"{get_equippable_strength_num:^{stats_space_w}}║{get_equippable_agility_num:^{stats_space_w}}║"
-                                    f"{get_equippable_intelligence_num:^{stats_space_w}}║{get_equippable_defence_num:^{stats_space_w}}║"
+                                    f"{get_equippable_intelligence_num:^{stats_space_w}}║{get_equippable_defense_num:^{stats_space_w}}║"
                                     f"{get_equippable_speed_num:^{stats_space_w}}║"
                                     )
         
