@@ -5,6 +5,7 @@ from itertools import zip_longest
 from items import Armor, Weapon, Potion, Equippable
 from playerCharacter import Player
 import re,shutil
+from maps import world_map
  
 top_border_char = "▄"
 bot_border_char = "▀"
@@ -12,7 +13,7 @@ border_width = BOX_WIDTH - 2
 middle = BOX_WIDTH - 4
 left_side = "█ "
 right_side = " █"
-
+column_space_w = COLUMN_SPACE * " "
 RESET = "\033[0m"
 BOLD_CYAN = "\033[1;36m"
 
@@ -28,7 +29,6 @@ def print_bot_layer():
     print(f"{bot_border_char*BOX_WIDTH}")
 
 def print_titles(title):
-  
     return f"{left_side}{title:^{middle}}{right_side}"
 
 def print_button(text):
@@ -57,17 +57,20 @@ def show_unit_stats_buffs_debuffs(unit):
     title_space_w = TITLE_SPACE
     column_space_w = COLUMN_SPACE * " "
     column_space_longer_w = (COLUMN_SPACE +1) * " "
-    top_part = f"╔{'═'*middle_space_w}╦{'═'*middle_space_w}╗"
-    top_part_long = f"╔{'═'*middle_space_w}╦{'═'*middle_long_space_w}╦{'═'*7}╗"
+
+    # Borders
+    top_part =    f"╔{'═'*middle_space_w}╦{'═'*middle_space_w}╗"
     middle_part = f"╠{'═'*middle_space_w}╬{'═'*middle_space_w}╣"
+    bot_part =    f"╚{'═'*middle_space_w}╩{'═'*middle_space_w}╝"
+    top_part_long =    f"╔{'═'*middle_space_w}╦{'═'*middle_long_space_w}╦{'═'*7}╗"
     middle_part_long = f"╠{'═'*middle_space_w}╬{'═'*middle_long_space_w}╬{'═'*7}╣"
-    bot_part = f"╚{'═'*middle_space_w}╩{'═'*middle_space_w}╝"
-    bot_part_long = f"╚{'═'*middle_space_w}╩{'═'*middle_long_space_w}╩{'═'*7}╝"
+    bot_part_long =    f"╚{'═'*middle_space_w}╩{'═'*middle_long_space_w}╩{'═'*7}╝"
 
     # Titles Attibutes Buffs Debuffs
     stats_title_part =  f"║ {'Attributes':^{title_space_w}} ║ {'Total':^{title_space_w}} ║"
     buffs_title_part =  f"║ {'Buffs':^{title_space_w}} ║ {'Description':^{DESCRIPTION_SPACE}} ║ {'Turns':^5} ║"
     debufs_title_part = f"║ {'Debuffs':^{title_space_w}} ║ {'Description':^{DESCRIPTION_SPACE}} ║ {'Turns':^5} ║"
+
     print(f"{left_side}{" " * (middle)}{right_side}")
     print(f"{left_side}{column_space_w}{top_part}{column_space_w}{top_part_long}{column_space_longer_w}{top_part_long}{column_space_w}{right_side}")
     print(f"{left_side}{column_space_w}{stats_title_part}{column_space_w}{buffs_title_part}{column_space_longer_w}{debufs_title_part}{column_space_w}{right_side}")
@@ -130,10 +133,11 @@ def get_stat(obj, name):
     return value if value > 0 else "-"
 
 def show_unit_gear_inv(unit, player_backpack): 
+    # Gear
     gear_slot_w = GEAR_SLOT
     gear_slot_name_w = gear_slot_w - 2
     gear_item_name_w = GEAR_ITEM - 2
-    
+    # Equippable
     equippable_slot_w = EQUIPPABLE_NAME
     equippable_slot_name_w = EQUIPPABLE_NAME - 2
     equippable_index_w = 3
@@ -269,15 +273,38 @@ def format_unit_info(unit):
     return (unit.name, unit_hp_txt, display_hp_bar, unit_res_txt, display_res_bar)
 
 def combat_show_units_hp_resources(player_team, enemy_team):
-
     for player_unit, enemy_unit in zip_longest(player_team, enemy_team):
-    
-       
+        # Player Info
         p_name_txt, p_hp_txt, p_hp_bar, p_res_txt, p_res_bar = format_unit_info(player_unit)
         player_party_info = f"{p_name_txt:<{COMBAT_NAME_SPACE}}{p_hp_txt:<{COMBAT_HP_RES_SPACE}}{p_hp_bar:<{COMBAT_HP_RES_BAR}}{p_res_txt:<{COMBAT_HP_RES_SPACE}}{p_res_bar:<{COMBAT_HP_RES_BAR}}"
-                            
+        # Enemy Info
         e_name_txt, e_hp_txt, e_hp_bar, e_res_txt, e_res_bar = format_unit_info(enemy_unit)
         enemy_party_info = f"{e_name_txt:<{COMBAT_NAME_SPACE}}{e_hp_txt:<{COMBAT_HP_RES_SPACE}}{e_hp_bar:<{COMBAT_HP_RES_BAR}}{e_res_txt:<{COMBAT_HP_RES_SPACE}}{e_res_bar:<{COMBAT_HP_RES_BAR}}"
                             
-        print(f"{player_party_info}{' ' * 54}{enemy_party_info}")
+        print(f"{left_side}{column_space_w}{player_party_info}{' ' * 48}{enemy_party_info}{column_space_w}{right_side}")
+
+def show_available_locations(world_map):
+    MAP_TITLE = 17
+    MAP_INDEX = 5
+    MAP_NAME = 10
+    MAP_NAME_BORDER = 12
+    MAP_LEVEL = 7
+
+    map_top_part = f"╔{'═'*MAP_INDEX}╦{'═'*MAP_NAME_BORDER}╦{'═'*MAP_LEVEL}╗{' ' * 104}{column_space_w}{right_side}"
+    map_mid_part = f"╠{'═'*MAP_INDEX}╬{'═'*MAP_NAME}╬{'═'*MAP_LEVEL}╣{' ' * 104}{column_space_w}{right_side}"
+    map_bot_part = f"╚{'═'*MAP_INDEX}╩{'═'*MAP_NAME_BORDER}╩{'═'*MAP_LEVEL}╝{' ' * 104}{column_space_w}{right_side}"
+    print_titles("World Map")
+    print(f"{left_side}{column_space_w}{map_top_part}")
+    for i, map, in enumerate(world_map.keys(), start=1):
+        map_name = map
+        map_recommended_level = world_map[map]["recommended_level"]
+
+        print(f"{left_side}{column_space_w}║{i:^{MAP_INDEX}}║ {map_name.capitalize():<{MAP_NAME}} ║{map_recommended_level:^{MAP_LEVEL}}║{' ' * 104}{column_space_w}{right_side}")
+    print(f"{left_side}{column_space_w}{map_bot_part}")
+    print(f"{bot_border_char * BOX_WIDTH}")
+#  for i, spell in enumerate(self.spellbook):
+#                 spell_name = spell.name
+#                 spell_description = spell.description
+#                 spell_cost_damage = spell.display_cost_damage(self)
+#                 print(f"{i+1}. {spell.name}, {spell.description}, {spell.display_cost_damage(self)}"
 

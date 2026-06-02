@@ -55,10 +55,11 @@ class Player(Character):
                 spell_name = spell.name
                 spell_description = spell.description
                 spell_cost_damage = spell.display_cost_damage(self)
-                print(i, spell_name,spell_description, spell_cost_damage)
+                print(f"{i+1}. {spell.name}, {spell.description}, {spell.display_cost_damage(self)}")
 
             spell_index = int(input("Choose Spell: ")) -1
             chosen_spell = self.spellbook[spell_index]
+
             if chosen_spell.can_cast(self):
                 choose_target = int(input("choose target:")) -1
                 chosen_enemy = enemy_team[choose_target]

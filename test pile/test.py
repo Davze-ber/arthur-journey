@@ -58,4 +58,7 @@ def check_lowest_health(team):
 
 
 
-name = input("│" + " Enter your name ".center(50) + "│ ")
+
+
+
+print(len("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄"))

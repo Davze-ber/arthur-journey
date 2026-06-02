@@ -38,39 +38,40 @@ plains = [
 world_map = {
     "plains" : {
         "name" : "Plains",
-        "recommended_level" : "1 - 5",
+        "recommended_level" : "1-5",
+        "is_completed": False,
         "floors" : {
             "1" :{
             "level" : "1-5",
             "enemies" : ["slime"],
-            "is_completed" : False
+            "is_done" : False
             },
 
             "2" :{
             "level" : "2-5",
             "enemies" : ["slime","slime"],
-            "is_completed" : False
+            "is_done" : False
             },
 
             "3":
             {
             "level" : "3-5",
             "enemies" : ["slime","wolf"],
-            "is_completed" : False
+            "is_done" : False
             },
 
             "4" :
             {
             "level" : "4-5",
             "enemies" : ["wolf","wolf"],
-            "is_completed" : False
+            "is_done" : False
             }, 
 
             "5" :
             {
             "level" : "5-5",
             "enemies" : ["goblin"],
-            "is_completed" : False
+            "is_done" : False
             },
         }
     }

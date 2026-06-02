@@ -38,11 +38,10 @@ def show_menu(player):
                     break
 
         elif player_option == "4":
-            for i, map in enumerate(world_map.keys()):
-                map_name = map
-                print(f"{i+1}. {map_name.capitalize()}")
+            visuals.print_titles("World Map")
+            visuals.show_available_locations(world_map)
                 
-            map_choice = int(input("Where to go?: ")) -1
+            map_choice = int(input("Where to go?: ")) -1 
             maps_lst = list(world_map.keys())
             selected_map = maps_lst[map_choice]
 

@@ -18,9 +18,9 @@ class FireBolt(Ability):
     
     def display_cost_damage(self,unit):
         dmg = self.damage(unit)
-        
+        unit_int = unit.total_stats["intelligence"]
 
-        return f"{self.cost} {self.resource.capitalize()} {dmg} Damage (Int x {self.primary_ratio}, {self.get_spell_power(unit)} Spell Power)"
+        return f"{self.cost} {self.resource.capitalize()} {dmg} Damage (Int: {unit_int} x {self.primary_ratio} Spell Power: {self.get_spell_power(unit)})"
     
     def deal_damage(self,caster, target):
         power = self.get_spell_power(caster)

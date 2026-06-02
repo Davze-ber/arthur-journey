@@ -108,12 +108,12 @@ def player_combat_choice(player, player_team, enemy_team):
 def enter_the_map(player, allies, map):
    current_map = world_map[map]
    map_floors = current_map["floors"]
-   map_name = current_map.get("name", "")
-   map_recommended_level = current_map.get("recommended_level", "")
-   print(f"Entering {map_name}, Recommended level: {map_recommended_level}")
+   map_name = current_map.get("name")
+   print(f"Entering {map_name}")
    for current_floor in map_floors.values():
       floor_level = current_floor["level"]
       floor_enemies = current_floor["enemies"]
+      floor_is_done = current_floor["is_done"]
    
      
       print(f"Floor: {floor_level}")
@@ -123,7 +123,7 @@ def enter_the_map(player, allies, map):
       result = combat(player, allies, current_enemies)
       
       if result == "Victory":
-         current_floor["is_completed"] = True
+         current_floor["is_done"] = True
          playerActions.after_a_fight(player)
       elif result == "Defeat":
          print("You are wounded! You must retreat!")

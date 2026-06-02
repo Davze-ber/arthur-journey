@@ -28,7 +28,6 @@ player = Player(name="Arthur", resource_type="mana", health=5,strength=3,agility
 playerActions.show_menu(player)
 
 
-visuals.print_bot_layer()
 
 
 
