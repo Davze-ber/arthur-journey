@@ -121,7 +121,7 @@ class Character:
     def basic_attack(self, target) -> None:
         weapon = self.gear["main_hand"]
         if weapon:
-            weapon_damage = getattr(weapon,"damage", 0)
+            weapon_damage = getattr(weapon,"weapon_damage", 0)
         else:
             weapon_damage = 0
         incoming_damage = self.total_stats["strength"] + weapon_damage + random.randint(-2,+2)
@@ -157,12 +157,12 @@ class Character:
             return False
 
         print("Potions in my inventory:")
-        for i, potion in enumerate(potions):
-            print(f"{i + 1}: {potion.name}")
+        for i, potion in enumerate(potions, start=1):
+            print(f"{i}: {potion.name}")
 
 
-        index_of_potion = int(input("Choose the Potion: "))
-        chosen_potion = potions[index_of_potion - 1]
+        index_of_potion = int(input("Choose the Potion: ")) -1 
+        chosen_potion = potions[index_of_potion]
         
         self.apply_potion_effect(chosen_potion)
         self.backpack.remove(chosen_potion)

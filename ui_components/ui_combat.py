@@ -43,22 +43,24 @@ def combat_show_units_hp_resources(player_team, enemy_team):
     for player_unit, enemy_unit in zip_longest(player_team, enemy_team):
         # Player Info
         p_name_txt, p_hp_txt, p_hp_bar, p_res_txt, p_res_bar = format_unit_info(player_unit)
-        player_party_info = (
-                            f"{p_name_txt:<{COMBAT_NAME_SPACE}}{p_hp_txt:<{COMBAT_HP_RES_SPACE}}{p_hp_bar:<{COMBAT_HP_RES_BAR}}",
-                            f"{p_res_txt:<{COMBAT_HP_RES_SPACE}}{p_res_bar:<{COMBAT_HP_RES_BAR}}"
-                            ) 
+        player_party_info = f"{p_name_txt:<{COMBAT_NAME_SPACE}}{p_hp_txt:<{COMBAT_HP_RES_SPACE}}{p_hp_bar:<{COMBAT_HP_RES_BAR}}{p_res_txt:<{COMBAT_HP_RES_SPACE}}{p_res_bar:<{COMBAT_HP_RES_BAR}}"
+                            
         # Enemy Info
         e_name_txt, e_hp_txt, e_hp_bar, e_res_txt, e_res_bar = format_unit_info(enemy_unit)
-        enemy_party_info = (
-                            f"{e_name_txt:<{COMBAT_NAME_SPACE}}{e_hp_txt:<{COMBAT_HP_RES_SPACE}}{e_hp_bar:<{COMBAT_HP_RES_BAR}}",
-                            f"{e_res_txt:<{COMBAT_HP_RES_SPACE}}{e_res_bar:<{COMBAT_HP_RES_BAR}}"
-                            )
+        enemy_party_info = f"{e_name_txt:<{COMBAT_NAME_SPACE}}{e_hp_txt:<{COMBAT_HP_RES_SPACE}}{e_hp_bar:<{COMBAT_HP_RES_BAR}}{e_res_txt:<{COMBAT_HP_RES_SPACE}}{e_res_bar:<{COMBAT_HP_RES_BAR}}"
+                            
         print(f"{left_side}{column_space_w}{player_party_info}{' ' * 48}{enemy_party_info}{column_space_w}{right_side}")
 
+def show_player_combat_option(player):
+    if player.resource_type in ["rage", "energy"]:
+      player_option = f"1. Attack 2. Skills 3. Use Potion"
+    elif player.resource_type == "mana":
+      player_option = f"1. Attack 2. Spell Book 3. Use Potion"
+    print(f"{left_side}{column_space_w}{player_option:<132}{column_space_w}{right_side}")
 
 def show_spells(unit):
-    for i, spell in enumerate(unit.spellbook):
+    for i, spell in enumerate(unit.spellbook, start=1):
                 spell_name = spell.name
                 spell_description = spell.description
                 spell_cost_damage = spell.display_cost_damage(unit)
-                print(f"{i+1}. {spell.name}, {spell.description}, {spell.display_cost_damage(unit)}")
+                print(f"{i}. {spell.name}, {spell.description}, {spell.display_cost_damage(unit)}")

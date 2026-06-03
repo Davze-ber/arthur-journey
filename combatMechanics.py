@@ -96,12 +96,32 @@ def combat(player, allies, enemy):
 def player_combat_choice(player, player_team, enemy_team):
    turn_in_progress = True
    targets = []
+   ui_combat.show_player_combat_option(player)
+
    while turn_in_progress:
-      player_choice = input("1. Attack\n2. Use Potion\n")
+      player_choice = input(">")
       if player_choice == "1":
-         targets = player.choose_the_target(player_team, enemy_team)
+         target = player.choose_the_target(player_team, enemy_team)
+         player.basic_attack(target)
+         targets = [target]
          turn_in_progress = False
-      elif player_choice == "2":
+
+      elif player_choice =="2":
+         ui_combat.show_spells(player)
+         choose_spell = int(input(">"))-1
+         chosen_spell = player.spellbook[choose_spell]
+         
+         if chosen_spell.can_cast(player):
+            target = player.choose_the_target(player_team, enemy_team)
+            chosen_spell.deal_damage(player,target)
+            chosen_spell.apply_cost(player)
+            targets = [target]
+            turn_in_progress = False
+            
+         else:
+            print("I need more mana to cast")
+
+      elif player_choice == "3":
                player.use_potion()
    return targets
 
@@ -136,3 +156,4 @@ def enter_the_map(player, allies, map):
 def check_teams_if_empty(player_team, enemy_team):
    if not player_team or not enemy_team:
       return True
+

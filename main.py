@@ -20,7 +20,8 @@ ui_frames.print_titles("Are you ready to go on the adventure?")
 #     def increment_turn(self):
 #         self.turn += 14
 
-#         return self.turn
+#         return self.turn4
+
 
 # Player Stats
 player = Player(name="Arthur", resource_type="mana", health=5,strength=3,agility=1, intelligence=2, defense=2,speed=2,level=1,experience=0)
