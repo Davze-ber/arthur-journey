@@ -1,18 +1,18 @@
-import time, random, visuals, enemies
-import playerActions, combatMechanics
 from itemsDict import item_list, weapon_dict
 from enemies import enemies_dict
 from playerCharacter import Player
 from items import Item, Potion, Weapon
 from constance import BOX_WIDTH, BUTTON_WIDTH
 
+import playerActions, combatMechanics
+import ui_components.ui_frames as ui_frames
 
 
 
-visuals.print_top_layer()
-print(visuals.print_titles("Welcome!"))
-print(visuals.print_titles("Nice to meet you, Arthur!"))
-print(visuals.print_titles("Are you ready to go on the adventure?"))
+ui_frames.print_top_layer()
+ui_frames.print_titles("Welcome!")
+ui_frames.print_titles("Nice to meet you, Arthur!")
+ui_frames.print_titles("Are you ready to go on the adventure?")
 
 # class Counter:
 #     def __init__(self):

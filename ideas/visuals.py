@@ -276,15 +276,19 @@ def combat_show_units_hp_resources(player_team, enemy_team):
     for player_unit, enemy_unit in zip_longest(player_team, enemy_team):
         # Player Info
         p_name_txt, p_hp_txt, p_hp_bar, p_res_txt, p_res_bar = format_unit_info(player_unit)
-        player_party_info = f"{p_name_txt:<{COMBAT_NAME_SPACE}}{p_hp_txt:<{COMBAT_HP_RES_SPACE}}{p_hp_bar:<{COMBAT_HP_RES_BAR}}{p_res_txt:<{COMBAT_HP_RES_SPACE}}{p_res_bar:<{COMBAT_HP_RES_BAR}}"
+        player_party_info = (
+                            f"{p_name_txt:<{COMBAT_NAME_SPACE}}{p_hp_txt:<{COMBAT_HP_RES_SPACE}}{p_hp_bar:<{COMBAT_HP_RES_BAR}}",
+                            f"{p_res_txt:<{COMBAT_HP_RES_SPACE}}{p_res_bar:<{COMBAT_HP_RES_BAR}}"
+                            ) 
         # Enemy Info
         e_name_txt, e_hp_txt, e_hp_bar, e_res_txt, e_res_bar = format_unit_info(enemy_unit)
-        enemy_party_info = f"{e_name_txt:<{COMBAT_NAME_SPACE}}{e_hp_txt:<{COMBAT_HP_RES_SPACE}}{e_hp_bar:<{COMBAT_HP_RES_BAR}}{e_res_txt:<{COMBAT_HP_RES_SPACE}}{e_res_bar:<{COMBAT_HP_RES_BAR}}"
-                            
+        enemy_party_info = (
+                            f"{e_name_txt:<{COMBAT_NAME_SPACE}}{e_hp_txt:<{COMBAT_HP_RES_SPACE}}{e_hp_bar:<{COMBAT_HP_RES_BAR}}",
+                            f"{e_res_txt:<{COMBAT_HP_RES_SPACE}}{e_res_bar:<{COMBAT_HP_RES_BAR}}"
+                            )
         print(f"{left_side}{column_space_w}{player_party_info}{' ' * 48}{enemy_party_info}{column_space_w}{right_side}")
 
 def show_available_locations(world_map):
-    MAP_TITLE = 17
     MAP_INDEX = 5
     MAP_NAME = 10
     MAP_NAME_BORDER = 12
@@ -293,18 +297,24 @@ def show_available_locations(world_map):
     map_top_part = f"╔{'═'*MAP_INDEX}╦{'═'*MAP_NAME_BORDER}╦{'═'*MAP_LEVEL}╗{' ' * 104}{column_space_w}{right_side}"
     map_mid_part = f"╠{'═'*MAP_INDEX}╬{'═'*MAP_NAME}╬{'═'*MAP_LEVEL}╣{' ' * 104}{column_space_w}{right_side}"
     map_bot_part = f"╚{'═'*MAP_INDEX}╩{'═'*MAP_NAME_BORDER}╩{'═'*MAP_LEVEL}╝{' ' * 104}{column_space_w}{right_side}"
-    print_titles("World Map")
+    print(f"{left_side}{"World Map":^{middle}}{right_side}")
     print(f"{left_side}{column_space_w}{map_top_part}")
     for i, map, in enumerate(world_map.keys(), start=1):
         map_name = map
         map_recommended_level = world_map[map]["recommended_level"]
 
         print(f"{left_side}{column_space_w}║{i:^{MAP_INDEX}}║ {map_name.capitalize():<{MAP_NAME}} ║{map_recommended_level:^{MAP_LEVEL}}║{' ' * 104}{column_space_w}{right_side}")
+        
+        if len(world_map) > 1:
+            print(f"{left_side}{column_space_w}{map_mid_part}")
+
     print(f"{left_side}{column_space_w}{map_bot_part}")
     print(f"{bot_border_char * BOX_WIDTH}")
-#  for i, spell in enumerate(self.spellbook):
-#                 spell_name = spell.name
-#                 spell_description = spell.description
-#                 spell_cost_damage = spell.display_cost_damage(self)
-#                 print(f"{i+1}. {spell.name}, {spell.description}, {spell.display_cost_damage(self)}"
+
+def show_spells(unit):
+    for i, spell in enumerate(unit.spellbook):
+                spell_name = spell.name
+                spell_description = spell.description
+                spell_cost_damage = spell.display_cost_damage(unit)
+                print(f"{i+1}. {spell.name}, {spell.description}, {spell.display_cost_damage(unit)}")
 

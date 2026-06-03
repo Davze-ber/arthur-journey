@@ -1,5 +1,7 @@
 from abilities import Ability
+
 import random
+
 class FireBolt(Ability):
     def __init__(self):
         super().__init__(

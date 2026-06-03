@@ -1,9 +1,10 @@
-import random, visuals
 from character import Character
 from items import Item, Weapon, Armor
 from itemsDict import item_list,weapon_dict
-from constance import BOX_WIDTH
 from spells import FireBolt
+from typing import Any
+
+import ui_components.ui_combat as ui_combat
 
 class Player(Character):
     def __init__(self, name: str, resource_type: str, health: int, strength: int, agility: int, intelligence: int, defense: int, speed: int, level: int, experience: int):
@@ -52,9 +53,7 @@ class Player(Character):
             target = enemy_team[0]
 
             for i, spell in enumerate(self.spellbook):
-                spell_name = spell.name
-                spell_description = spell.description
-                spell_cost_damage = spell.display_cost_damage(self)
+        
                 print(f"{i+1}. {spell.name}, {spell.description}, {spell.display_cost_damage(self)}")
 
             spell_index = int(input("Choose Spell: ")) -1
@@ -72,7 +71,7 @@ class Player(Character):
                 try:
                     for index, enemy in enumerate(enemy_team):
 
-                        e_name_txt, e_hp_txt, e_hp_bar, e_res_txt, e_res_bar = visuals.format_unit_info(enemy)
+                        e_name_txt, e_hp_txt, e_hp_bar, e_res_txt, e_res_bar = ui_combat.format_unit_info(enemy)
                         print(f"{index + 1}. {e_name_txt} {e_hp_txt} {e_hp_bar}{e_res_txt} {e_res_bar}", end=" ")
                     print()
                     choice = int(input("Which enemy to attack: "))

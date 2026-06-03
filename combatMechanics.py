@@ -1,9 +1,10 @@
-import time, visuals, playerActions
-from constance import BOX_WIDTH, BUTTON_WIDTH
 from playerCharacter import Player
 from enemies import Enemy, enemies_dict
-from maps import plains, world_map
+from maps import world_map
 from typing import Type
+
+import playerActions
+import ui_components.ui_combat as ui_combat
 
 class Counter:
     def __init__(self):
@@ -30,7 +31,7 @@ def combat(player, allies, enemy):
    while len(player_team) > 0 and len(enemy_team) > 0:
       unit_order = sorted((player_team + enemy_team), key = lambda unit: unit.total_stats["speed"], reverse=True)
 
-      visuals.combat_show_units_hp_resources(player_team, enemy_team)
+      ui_combat.combat_show_units_hp_resources(player_team, enemy_team)
 
       for unit in unit_order:
          if check_teams_if_empty(player_team, enemy_team):
