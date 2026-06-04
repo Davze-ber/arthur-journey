@@ -120,7 +120,7 @@ def player_combat_choice(player, player_team, enemy_team):
             
          else:
             print("I need more mana to cast")
-
+            ui_combat.show_player_combat_option(player)
       elif player_choice == "3":
                player.use_potion()
    return targets

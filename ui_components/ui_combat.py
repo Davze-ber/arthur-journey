@@ -62,5 +62,7 @@ def show_spells(unit):
     for i, spell in enumerate(unit.spellbook, start=1):
                 spell_name = spell.name
                 spell_description = spell.description
+                spell_category = spell.category
+                spell_tag = spell.tag
                 spell_cost_damage = spell.display_cost_damage(unit)
-                print(f"{i}. {spell.name}, {spell.description}, {spell.display_cost_damage(unit)}")
+                print(f"{i}. {spell.name}, {spell.category} {spell_tag}, {spell.display_cost_damage(unit)}")

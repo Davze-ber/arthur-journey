@@ -1,7 +1,7 @@
 import random
 from typing import Any
 from items import Item, Weapon, Potion, Armor
-
+from constance import MIN_DAMAGE, MAX_DAMAGE
  
 
 stats_lst: list[str] = ["health", "strength", "agility", "intelligence", "defense", "speed"]
@@ -87,6 +87,18 @@ class Character:
         return self.total_stats["health"]
 
     @property
+    def weapon_power(self):
+        main_hand = self.gear.get("main_hand")
+        bonus_weapon_damage = getattr(main_hand, "weapon_power", 0)
+        return bonus_weapon_damage
+
+    @property
+    def spell_power(self):
+        main_hand = self.gear.get("main_hand")
+        bonus_spell_damage = getattr(main_hand, "spell_power", 0)
+        return bonus_spell_damage
+
+    @property
     def backpack(self) -> list[Any]:
         return self.inventory["backpack"]
     
@@ -119,12 +131,10 @@ class Character:
 
 
     def basic_attack(self, target) -> None:
-        weapon = self.gear["main_hand"]
-        if weapon:
-            weapon_damage = getattr(weapon,"weapon_damage", 0)
-        else:
-            weapon_damage = 0
-        incoming_damage = self.total_stats["strength"] + weapon_damage + random.randint(-2,+2)
+        damage = self.total_stats["strength"] + self.weapon_damage
+        min_damage = int(max(0, damage * MIN_DAMAGE))
+        max_damage = int(damage * MAX_DAMAGE)
+        incoming_damage =  random.randint(min_damage, max_damage)
         damage_taken = max(0, incoming_damage - target.total_stats["defense"])
         target.current_health -= damage_taken
         print(f"{self.name} dealt {damage_taken} damage to {target.name}!")
