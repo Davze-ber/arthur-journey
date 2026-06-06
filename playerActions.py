@@ -74,12 +74,6 @@ def equip(unit):
         if old_gear_item is not None:
             unit.backpack.append(old_gear_item)        
 
-def armor_type_check(item):
-    if item.tag == "chest":
-        return "chest"
-    if item.tag == "legs":
-        return "legs"
-
 def after_a_fight(player):
     after_a_fight = True
     while after_a_fight:

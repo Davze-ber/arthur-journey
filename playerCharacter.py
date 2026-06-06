@@ -32,56 +32,54 @@ class Player(Character):
         self.spellbook = [
             FireBolt()
         ]
-    
-    
-    def show_player_gear_and_inventory(self):
-        head_name = self.gear["head"].name if self.gear["head"] else "Empty"
-        chest_name = self.gear["chest"].name if self.gear["chest"] else "Empty"
-        legs_name = self.gear["legs"].name if self.gear["legs"] else "Empty"
-        main_name = self.gear["main_hand"].name if self.gear["main_hand"] else "Empty"
-        off_name = self.gear["off_hand"].name if self.gear["off_hand"] else "Empty"
 
-        gear_lines = f"Head: {head_name}\nChest: {chest_name}\nLegs: {legs_name}\nMain-Hand: {main_name}\nOff-Hand: {off_name}"
-        print(gear_lines)
-        equipable_items = list(filter (lambda item: isinstance(item, (Weapon,Armor)), self.backpack))
-        for index, item in  enumerate(equipable_items):
-            print(f"{index + 1}: {item.name}")
-        print("X: Exit")
 
+    # def choose_the_target(self,player_team, enemy_team):
+    #     if len(enemy_team) == 1:
+    #         target = enemy_team[0]
+
+    #         for i, spell in enumerate(self.spellbook):
+        
+    #             print(f"{i+1}. {spell.name}, {spell.description}, {spell.display_cost_damage(self)}")
+
+    #         spell_index = int(input("Choose Spell: ")) -1
+    #         chosen_spell = self.spellbook[spell_index]
+
+    #         if chosen_spell.can_cast(self):
+    #             choose_target = int(input("choose target:")) -1
+    #             chosen_enemy = enemy_team[choose_target]
+    #             target = chosen_spell.deal_damage(self, chosen_enemy)
+    #             spell.apply_cost(self)
+    #             return [chosen_enemy]
+    #     else:
+    
+    #         while True:
+    #             try:
+    #                 for index, enemy in enumerate(enemy_team):
+
+    #                     e_name_txt, e_hp_txt, e_hp_bar, e_res_txt, e_res_bar = ui_combat.format_unit_info(enemy)
+    #                     print(f"{index + 1}. {e_name_txt} {e_hp_txt} {e_hp_bar}{e_res_txt} {e_res_bar}", end=" ")
+    #                 print()
+    #                 choice = int(input("Which enemy to attack: "))
+    #                 target = (enemy_team[choice - 1])
+    #                 break
+    #             except(ValueError, IndexError):
+    #                 print("Invalid choice! Pick a number from the list")
+    #         self.basic_attack(target)
+    #         return [target]
     def choose_the_target(self,player_team, enemy_team):
         if len(enemy_team) == 1:
             target = enemy_team[0]
-
-            for i, spell in enumerate(self.spellbook):
-        
-                print(f"{i+1}. {spell.name}, {spell.description}, {spell.display_cost_damage(self)}")
-
-            spell_index = int(input("Choose Spell: ")) -1
-            chosen_spell = self.spellbook[spell_index]
-
-            if chosen_spell.can_cast(self):
-                choose_target = int(input("choose target:")) -1
-                chosen_enemy = enemy_team[choose_target]
-                target = chosen_spell.deal_damage(self, chosen_enemy)
-                spell.apply_cost(self)
-                return [chosen_enemy]
         else:
-    
             while True:
-                try:
-                    for index, enemy in enumerate(enemy_team):
-
-                        e_name_txt, e_hp_txt, e_hp_bar, e_res_txt, e_res_bar = ui_combat.format_unit_info(enemy)
-                        print(f"{index + 1}. {e_name_txt} {e_hp_txt} {e_hp_bar}{e_res_txt} {e_res_bar}", end=" ")
-                    print()
-                    choice = int(input("Which enemy to attack: "))
-                    target = (enemy_team[choice - 1])
-                    break
-                except(ValueError, IndexError):
-                    print("Invalid choice! Pick a number from the list")
-            self.basic_attack(target)
-            return [target]
-
+                for index, enemy in enumerate(enemy_team, start=1):
+                    e_name_txt, e_hp_txt, e_hp_bar, e_res_txt, e_res_bar = ui_combat.format_unit_info(enemy)
+                    print(f"{index}. {e_name_txt} {e_hp_txt} {e_hp_bar}{e_res_txt} {e_res_bar}", end=" ")
+                print()
+                choice = int(input("Which enemy to attack: "))-1
+                target = (enemy_team[choice])
+                break
+        return target
 
     def take_a_rest(self, at_inn=False):
         percentage = 1 if at_inn else 0.5
