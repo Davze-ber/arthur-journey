@@ -1,6 +1,6 @@
 from character import Character
 from items import Item, Weapon, Armor
-from itemsDict import item_list,weapon_dict
+from itemsDict import item_lst,weapon_dict
 from spells import FireBolt
 from typing import Any
 
@@ -22,8 +22,8 @@ class Player(Character):
         
         self.inventory["gold"] = 10
         self.inventory["backpack"] = [
-            item_list["Lesser Potion"](),
-            item_list["Strong Potion"](),
+            item_lst["Lesser Potion"](),
+            item_lst["Strong Potion"](),
             weapon_dict["Wood Stick"](),
             weapon_dict["Axe"]()
             ]
@@ -33,40 +33,6 @@ class Player(Character):
             FireBolt()
         ]
 
-
-    # def choose_the_target(self,player_team, enemy_team):
-    #     if len(enemy_team) == 1:
-    #         target = enemy_team[0]
-
-    #         for i, spell in enumerate(self.spellbook):
-        
-    #             print(f"{i+1}. {spell.name}, {spell.description}, {spell.display_cost_damage(self)}")
-
-    #         spell_index = int(input("Choose Spell: ")) -1
-    #         chosen_spell = self.spellbook[spell_index]
-
-    #         if chosen_spell.can_cast(self):
-    #             choose_target = int(input("choose target:")) -1
-    #             chosen_enemy = enemy_team[choose_target]
-    #             target = chosen_spell.deal_damage(self, chosen_enemy)
-    #             spell.apply_cost(self)
-    #             return [chosen_enemy]
-    #     else:
-    
-    #         while True:
-    #             try:
-    #                 for index, enemy in enumerate(enemy_team):
-
-    #                     e_name_txt, e_hp_txt, e_hp_bar, e_res_txt, e_res_bar = ui_combat.format_unit_info(enemy)
-    #                     print(f"{index + 1}. {e_name_txt} {e_hp_txt} {e_hp_bar}{e_res_txt} {e_res_bar}", end=" ")
-    #                 print()
-    #                 choice = int(input("Which enemy to attack: "))
-    #                 target = (enemy_team[choice - 1])
-    #                 break
-    #             except(ValueError, IndexError):
-    #                 print("Invalid choice! Pick a number from the list")
-    #         self.basic_attack(target)
-    #         return [target]
     def choose_the_target(self,player_team, enemy_team):
         if len(enemy_team) == 1:
             target = enemy_team[0]
@@ -89,10 +55,6 @@ class Player(Character):
         else:
             self.current_health = self.max_health
         print(f"{self.name} recovered {rest_healing} health")
-
-    def gain_experience(self, total_exp):
-        self.experience += total_exp
-        return self.experience
 
     def level_up(self):
         match self.experience:

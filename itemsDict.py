@@ -1,12 +1,17 @@
-from items import Item, Potion, Weapon
+from items import Item, Potion, Weapon, Material, Junk
 
+material_lst = {
+    "Wolf Fur" : lambda: Material("Wolf Fur", "crafting", "material",can_stack=True, value=2)
+}
 
+junk_lst = {
+    "Slime Gel" : lambda: Junk("Slime Gel", "junk", "junk",can_stack=True, value=1)
+}
 
-
-item_list = {
-   "Lesser Potion" : lambda: Potion("Lesser Healing Potion", "Potion", "Health", value=10, healing_amount=5),
-   "Strong Potion" : lambda: Potion("Strong Healing Potion", "Potion", "Health", value=10, healing_amount=10),
-   "Lesser Mana Potion" : lambda: Potion("Lesser Mana Potion", "Potion", "Mana", value=10, restore_mana=5)
+item_lst = {
+   "Lesser Potion" : lambda: Potion("Lesser Healing Potion", "Potion", "health", value=10, healing_amount=5),
+   "Strong Potion" : lambda: Potion("Strong Healing Potion", "Potion", "health", value=20, healing_amount=10),
+   "Lesser Mana Potion" : lambda: Potion("Lesser Mana Potion", "Potion", "mana", value=10, restore_mana=5)
    }
 
 weapon_dict = {

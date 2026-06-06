@@ -1,5 +1,5 @@
 from constance import MIN_DAMAGE, MAX_DAMAGE
-import random
+import random, math
 class Ability():
     def __init__(self, name: str, tag: str, resource: str, cost: int, main_stat: str = 0, second_stat:str = 0, primary_ratio: float = 0, secondary_ratio:float = 0, description: str = ""):
         self.name = name
@@ -27,6 +27,7 @@ class Ability():
         bonus_damage = 0
         primary_value = unit.total_stats[self.main_stat] * self.primary_ratio
         secondary_value = unit.total_stats[self.second_stat] * self.secondary_ratio
+        
         if unit.resource_type in ["rage", "energy"]: 
             bonus_damage = unit.weapon_power
           
@@ -37,15 +38,9 @@ class Ability():
 
         damage = primary_value + secondary_value + bonus_damage
 
-        min_damage = int(max(0, damage * MIN_DAMAGE))
-        max_damage = int(damage * MAX_DAMAGE)
+        min_damage = int(max(1, math.floor(damage * MIN_DAMAGE)))
+        max_damage = int(round(damage * MAX_DAMAGE))
         return min_damage, max_damage
-
-        # power = self.get_spell_power(caster)
-        # primary_bonus_damage = caster.total_stats[self.main_stat] * self.primary_ratio
-        # secondary_bonus_damage = caster.total_stats[self.second_stat] * self.secondary_ratio
-        # damage = power + primary_bonus_damage + secondary_bonus_damage
-        
 
     def can_cast(self, unit) -> bool:
         return unit.current_resource >= self.cost
@@ -53,7 +48,7 @@ class Ability():
     def apply_cost(self, unit) -> None:
         unit.current_resource = max(0, unit.current_resource - self.cost) 
 
-    def deal_damage(self,caster, target):
+    def deal_damage(self,caster, target) -> None:
         min_damage, max_damage = self.calc_damage(caster)
         incoming_damage = random.randint(min_damage,max_damage)
         damage_taken = int(max(0, incoming_damage - target.total_stats["defense"]))

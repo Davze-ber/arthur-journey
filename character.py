@@ -118,7 +118,9 @@ class Character:
             intelligence_increase = int(self.total_stats["intelligence"] * 2)
             return self.base_mana + intelligence_increase
 
-    
+    def gain_experience(self, total_exp):
+        self.experience += total_exp
+
     def choose_the_target(self,player_team, enemy_team) -> list:
         if self.faction == "player" or  self.faction == "ally":
             target = enemy_team[0]
@@ -131,7 +133,7 @@ class Character:
 
 
     def basic_attack(self, target) -> None:
-        damage = self.total_stats["strength"] + self.weapon_damage
+        damage = self.total_stats["strength"] + self.weapon_power
         min_damage = int(max(0, damage * MIN_DAMAGE))
         max_damage = int(damage * MAX_DAMAGE)
         incoming_damage =  random.randint(min_damage, max_damage)
@@ -177,11 +179,11 @@ class Character:
         self.apply_potion_effect(chosen_potion)
         self.backpack.remove(chosen_potion)
 
-        if chosen_potion.tag == "Rejuvenation":
+        if chosen_potion.tag == "rejuvenation":
             print(f"{self.name} use {chosen_potion.name} and healed {chosen_potion.healing_amount}: and restored {chosen_potion.restore_mana}")
-        elif chosen_potion.tag == "Health":
+        elif chosen_potion.tag == "health":
             print(f"{self.name} use {chosen_potion.name} and healed {chosen_potion.healing_amount}:")
-        elif chosen_potion.tag == "Mana":
+        elif chosen_potion.tag == "nana":
             print(f"{self.name} use {chosen_potion.name} and healed {chosen_potion.restore_mana}:")
         return True
 

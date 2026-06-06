@@ -1,7 +1,9 @@
 from playerCharacter import Player
+from character import Character
 from enemies import Enemy, enemies_dict
 from maps import world_map
 from typing import Type
+from items import Material, Junk
 
 import playerActions
 import ui_components.ui_combat as ui_combat
@@ -25,7 +27,7 @@ def combat(player, allies, enemy):
       enemy_team = [enemy]
       
    total_exp = 0
-   gold_loot = 0
+   total_gold = 0
    item_loot = []
 
    while len(player_team) > 0 and len(enemy_team) > 0:
@@ -34,64 +36,62 @@ def combat(player, allies, enemy):
       ui_combat.combat_show_units_hp_resources(player_team, enemy_team)
 
       for unit in unit_order:
-         if check_teams_if_empty(player_team, enemy_team):
-            break
-
-         if unit.is_alive == False:
-            if unit in player_team:
-               player_team.remove(unit)
-
+         if not unit.is_alive:
+            if unit in player_team: player_team.remove(unit)
             if unit in enemy_team:
                enemy_team.remove(unit)
 
+               total_exp += unit.experience
+               total_gold += getattr(unit, "gold", 0)
+               enemy_loot = getattr(unit, "loot", [])
+               check_stackable_enemy(enemy_loot, item_loot)
+               print(f"{unit.name} has fallen!")
+
             if check_teams_if_empty(player_team, enemy_team):
                break
-            
             continue
-
-         if unit.is_stunned == True:
+      
+         if unit.is_stunned:
             print(f"{unit.name} is stunned!")
             unit.is_stunned = False
             continue
 
          if isinstance(unit, Player):
-                  targets = player_combat_choice(player, player_team, enemy_team)
-                  for target in targets:
-                     if target.is_alive == False:
-                        enemy_team.remove(target)
-                        print(f"{target.name} has fallen!")
-
-                        total_exp += target.experience
-                     
-                        target_gold = target.gold if hasattr(target, "gold") else 0
-                        gold_loot += target_gold
-
-                        target_loot = target.backpack if target.backpack else []
-                        item_loot.extend(target_loot)
-                        
-                     if check_teams_if_empty(player_team, enemy_team):
-                        break
+            targets = player_combat_choice(player, player_team, enemy_team)
                  
-                     
          elif isinstance(unit, Enemy):
-               targets = unit.choose_the_target(player_team, enemy_team)
-               for target in targets:
-                  if target.is_alive == False:
-                     player_team.remove(target)
-                     print(f"{target.name} has fallen!")
-                     if check_teams_if_empty(player_team, enemy_team):
-                        break
-   
+            targets = unit.choose_the_target(player_team, enemy_team)
+         
+         if check_teams_if_empty(player_team, enemy_team):
+            break
+     
 
+         for target in targets:
+            if not target.is_alive:
+               print(f"{target.name} has been defeated!")
+   
       
    if len(player_team) >= 1 and len(enemy_team) == 0:
       print(f"Enemies were defeated!")
-      player.gain_experience(total_exp)
-      player.inventory["gold"] += gold_loot
-      player.backpack.extend(item_loot)
+      combat_loot_phase(player, player_team, total_exp, total_gold, item_loot)
       return "Victory"
    return "Defeat"
       
+def combat_loot_phase(player, player_team, total_exp, total_gold, item_loot):
+   party_members = len(player_team)
+   exp_per_member = total_exp // party_members
+   amount_of_loot = len(item_loot)
+
+   for member in player_team:
+      member.gain_experience(exp_per_member)
+
+   player.inventory["gold"] += total_gold
+   check_stackable_player(item_loot, player)
+
+   print(f"All members gained {exp_per_member} EXP.")
+   print(f"Party obtained {total_gold} and found {amount_of_loot}")
+   for item in item_loot:
+      print(f"{item.name} Amount: {item.amount} Value: {item.total_value}")
          
 def player_combat_choice(player, player_team, enemy_team):
    turn_in_progress = True
@@ -157,3 +157,19 @@ def check_teams_if_empty(player_team, enemy_team):
    if not player_team or not enemy_team:
       return True
 
+
+def stack_items_in_list(loot, target_list):
+   for item in loot:
+      if item.can_stack and item in target_list:
+         item_index = target_list.index(item)
+         target_list[item_index].amount += item.amount
+      else:        
+         target_list.append(item.clone())
+
+def check_stackable_player(loot, player):
+   
+      stack_items_in_list(loot, player.inventory["backpack"])
+
+def check_stackable_enemy(enemy_loot, item_loot):
+   
+      stack_items_in_list(enemy_loot, item_loot)

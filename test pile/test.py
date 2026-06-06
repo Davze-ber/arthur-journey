@@ -1,3 +1,4 @@
+import random
 class Test:
     def __init__(self, name, resource_type,intelligence, hp, current_hp):
         self.intelligence = 5
@@ -57,8 +58,14 @@ def check_lowest_health(team):
 
 
 
+a= 1
+b = 0
+def test(a,b):
+    if b  == 0:
+        b = a
 
 
+    r = random.randint(a,b)
+    print(r)
 
-
-print(len("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄"))
+test(1,0)

@@ -1,6 +1,6 @@
 from constance import BOX_WIDTH, BUTTON_WIDTH, MIDDLE_SPACE,COLUMN_SPACE,STATS_SPACE,TITLE_SPACE, NAME_SPACE, TURN_SPACE, DESCRIPTION_SPACE, DESCRIPTION_NAME, GEAR_SLOT, GEAR_ITEM, EQUIPPABLE_NAME
 from itertools import zip_longest
-from items import Armor, Weapon, Potion, Equippable
+from items import Armor, Weapon, Potion, Equippable, Item, Junk, Material
 from .ui_frames import left_side,right_side, middle
 
 def show_unit_stats_buffs_debuffs(unit):
@@ -66,18 +66,19 @@ def show_unit_stats_buffs_debuffs(unit):
 def show_inventory(unit):
     equippable = [item for item in unit.inventory["backpack"] if isinstance(item, Equippable)]
     potions = [potion for potion in unit.inventory["backpack"] if isinstance(potion, Potion)] 
+    others = [other for other in unit.inventory["backpack"] if isinstance(other, (Junk, Material))]
     indexed_equippable = [(i+1, item) for i, item in enumerate(equippable)]
     indexed_potions = [(i+1, potion) for i, potion in enumerate(potions)]
-
+    indexed_others = [(i+1, potion) for i, potion in enumerate(others)] 
     for index, item in indexed_equippable:
-        item_index = index
-        item_name = item.name
-        print(f"{item_index}. {item_name}")
+        print(f"{index}. {item.name} Value: {item.value}")
         
     for index, potion in indexed_potions:
-        potion_index = index
-        potion_name = potion.name
-        print(f"{potion_index}. {potion_name}")
+        print(f"{index}. {potion.name} Value: {potion.value}")
+
+    for index, other in indexed_others:
+        print(f"{index}. {other.name} Amount: {other.amount} Value: {other.total_value}")
+    print(unit.gold)
 
 def get_stat(obj, name):
     if not obj: 

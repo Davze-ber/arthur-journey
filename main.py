@@ -1,4 +1,4 @@
-from itemsDict import item_list, weapon_dict
+
 from enemies import enemies_dict
 from playerCharacter import Player
 from items import Item, Potion, Weapon

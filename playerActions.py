@@ -81,7 +81,7 @@ def after_a_fight(player):
             if player_decision == "1":
                 ui_player.show_unit_stats_buffs_debuffs(player)
             elif player_decision == "2":
-                player.show_player_gear_and_inventory()
+                ui_player.show_inventory(player)
             elif player_decision == "3":
                 player.equip()
             elif player_decision == "4":
