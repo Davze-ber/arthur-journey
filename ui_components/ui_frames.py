@@ -25,6 +25,10 @@ def print_bot_layer():
 def print_titles(title):
     print(f"{left_side}{title:^{middle}}{right_side}")
 
+def print_two_titles(map_name, floor_level):
+    map_floor = f"Entering: {map_name} Floor: {floor_level}"
+    print(f"{left_side}{map_floor:^{middle}}{right_side}")
+
 def print_button(text):
     print(f"{top_border_char*15}",end="")
     print(f"{left_side}{text:^11}{right_side}", end="")

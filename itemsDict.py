@@ -24,4 +24,6 @@ armor_dict = {
     
 }
 
-
+shield_dict = {
+    "Small Shield" : lambda: Weapon(name="Small Shield", category="shield", tag="off_hand", value=0, block_chance=5),
+}

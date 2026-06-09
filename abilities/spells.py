@@ -1,4 +1,4 @@
-from abilities import Ability
+from abilities.abilities import Ability
 
 import random
 
@@ -21,7 +21,7 @@ class FireBolt(Ability):
         dmg = self.calc_damage(unit)
         unit_int = unit.total_stats[self.main_stat]
 
-        return f"{self.cost} {self.resource.capitalize()} {dmg} Damage (Int: {unit_int} x {self.primary_ratio} Spell Power: {unit.spell_power})"
+        return f"{self.cost} {self.resource.capitalize()} {dmg} Damage (Int: {unit_int} x {self.primary_ratio} Spell Power: {unit.total_combat_stats['spell_power']})"
     
 
  

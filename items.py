@@ -36,7 +36,14 @@ class Armor(Equippable):
     def __init__(self, name: str, category: str, tag: str, value: int = 0, health:int = 0, strength:int = 0, agility:int = 0, intelligence:int = 0, defense:int = 0, speed:int = 0):
         super().__init__(name, category, tag, value, health, strength, agility, intelligence, defense, speed)
         
+class Shield(Equippable):
+    def __init__(self, name: str, category: str, tag: str = "off_hand", value: int = 0, health:int = 0, strength:int = 0, agility:int = 0, intelligence:int = 0, defense:int = 0, speed:int = 0, block_chance:int = 0):
+        super().__init__(name, category, tag, value, health, strength, agility, intelligence, defense, speed)
+        self.block_chance = block_chance
 
+    def clone(self):
+        return Shield(self.name, self.category, self.tag, self.value,self.block_chance **self.stats)
+        
 class Potion(Item):
     def __init__(self, name: str, category: str,tag: str, value: int, healing_amount: int = 0, restore_mana: int = 0):
         super().__init__(name, category,tag, value)

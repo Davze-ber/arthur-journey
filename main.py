@@ -1,10 +1,10 @@
 
-from enemies import enemies_dict
-from playerCharacter import Player
+from entities.enemies import enemies_dict
+from entities.playerCharacter import Player
 from items import Item, Potion, Weapon
 from constance import BOX_WIDTH, BUTTON_WIDTH
-
-import playerActions, combatMechanics
+import entities.playerActions as aP
+import combatMechanics
 import ui_components.ui_frames as ui_frames
 
 
@@ -24,9 +24,9 @@ ui_frames.print_titles("Are you ready to go on the adventure?")
 
 
 # Player Stats
-player = Player(name="Arthur", resource_type="mana", health=5,strength=3,agility=1, intelligence=2, defense=2,speed=2,level=1,experience=0)
+player = Player(name="Arthur", resource_type="mana", health=5,strength=1,agility=1, intelligence=1, defense=1,speed=1,level=1,experience=0)
 
-playerActions.show_menu(player)
+aP.show_menu(player)
 
 
 

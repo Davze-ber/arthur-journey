@@ -1,12 +1,13 @@
-from playerCharacter import Player
-from character import Character
-from enemies import Enemy, enemies_dict
+from entities.playerCharacter import Player
+from entities.character import Character
+from entities.enemies import Enemy, enemies_dict
 from maps import world_map
 from typing import Type
 from items import Material, Junk
-
-import playerActions
+import inventoryLogic as invLo
+import entities.playerActions as pA
 import ui_components.ui_combat as ui_combat
+import ui_components.ui_frames as ui_frames
 
 class Counter:
     def __init__(self):
@@ -36,6 +37,7 @@ def combat(player, allies, enemy):
       ui_combat.combat_show_units_hp_resources(player_team, enemy_team)
 
       for unit in unit_order:
+         unit.resource_regeneration()
          if not unit.is_alive:
             if unit in player_team: player_team.remove(unit)
             if unit in enemy_team:
@@ -44,7 +46,7 @@ def combat(player, allies, enemy):
                total_exp += unit.experience
                total_gold += getattr(unit, "gold", 0)
                enemy_loot = getattr(unit, "loot", [])
-               check_stackable_enemy(enemy_loot, item_loot)
+               invLo.check_stackable_enemy(enemy_loot, item_loot)
                print(f"{unit.name} has fallen!")
 
             if check_teams_if_empty(player_team, enemy_team):
@@ -55,6 +57,8 @@ def combat(player, allies, enemy):
             print(f"{unit.name} is stunned!")
             unit.is_stunned = False
             continue
+
+         
 
          if isinstance(unit, Player):
             targets = player_combat_choice(player, player_team, enemy_team)
@@ -86,7 +90,7 @@ def combat_loot_phase(player, player_team, total_exp, total_gold, item_loot):
       member.gain_experience(exp_per_member)
 
    player.inventory["gold"] += total_gold
-   check_stackable_player(item_loot, player)
+   invLo.check_stackable_player(item_loot, player)
 
    print(f"All members gained {exp_per_member} EXP.")
    print(f"Party obtained {total_gold} and found {amount_of_loot}")
@@ -130,14 +134,13 @@ def enter_the_map(player, allies, map):
    current_map = world_map[map]
    map_floors = current_map["floors"]
    map_name = current_map.get("name")
-   print(f"Entering {map_name}")
    for current_floor in map_floors.values():
       floor_level = current_floor["level"]
       floor_enemies = current_floor["enemies"]
       floor_is_done = current_floor["is_done"]
    
-     
-      print(f"Floor: {floor_level}")
+      ui_frames.print_top_layer()
+      ui_frames.print_two_titles(map_name, floor_level)
       
       current_enemies = [enemies_dict[enemy]() for enemy in floor_enemies]
 
@@ -145,7 +148,7 @@ def enter_the_map(player, allies, map):
       
       if result == "Victory":
          current_floor["is_done"] = True
-         playerActions.after_a_fight(player)
+         pA.after_a_fight(player)
       elif result == "Defeat":
          print("You are wounded! You must retreat!")
          player.take_a_rest(at_inn=True)
@@ -158,18 +161,3 @@ def check_teams_if_empty(player_team, enemy_team):
       return True
 
 
-def stack_items_in_list(loot, target_list):
-   for item in loot:
-      if item.can_stack and item in target_list:
-         item_index = target_list.index(item)
-         target_list[item_index].amount += item.amount
-      else:        
-         target_list.append(item.clone())
-
-def check_stackable_player(loot, player):
-   
-      stack_items_in_list(loot, player.inventory["backpack"])
-
-def check_stackable_enemy(enemy_loot, item_loot):
-   
-      stack_items_in_list(enemy_loot, item_loot)

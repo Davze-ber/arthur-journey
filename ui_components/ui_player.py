@@ -3,6 +3,93 @@ from itertools import zip_longest
 from items import Armor, Weapon, Potion, Equippable, Item, Junk, Material
 from .ui_frames import left_side,right_side, middle
 
+def show_character(unit):
+    middle_space_w = MIDDLE_SPACE
+    middle_long_space_w = DESCRIPTION_NAME +2
+    stats_space_w = STATS_SPACE
+    title_space_w = TITLE_SPACE
+    column_space_w = COLUMN_SPACE * " "
+    column_space_longer_w = (COLUMN_SPACE +1) * " "
+    gear_slot_w = GEAR_SLOT
+    gear_slot_name_w = gear_slot_w - 2
+    gear_item_name_w = GEAR_ITEM - 2
+
+
+    unit_name = unit.name
+    unit_level = unit.level
+
+    # Borders
+    top_part =    f"╔{'═'*middle_space_w}╦{'═'*middle_space_w}╗"
+    middle_part = f"╠{'═'*middle_space_w}╬{'═'*middle_space_w}╣"
+    bot_part =    f"╚{'═'*middle_space_w}╩{'═'*middle_space_w}╝"
+    top_part_long =    f"╔{'═'*middle_space_w}╦{'═'*middle_long_space_w}╦{'═'*7}╗"
+    middle_part_long = f"╠{'═'*middle_space_w}╬{'═'*middle_long_space_w}╬{'═'*7}╣"
+    bot_part_long =    f"╚{'═'*middle_space_w}╩{'═'*middle_long_space_w}╩{'═'*7}╝"
+
+    # Titles Attibutes Buffs Debuffs
+    stats_title_part =  f"║ {'Attributes':^{title_space_w}} ║ {'Total':^{title_space_w}} ║"
+    combat_stats_title_part =  f"║ {'Combat':^{title_space_w}} ║ {'Total':^{title_space_w}} ║"
+    gear_lst = ["Head", "Neck", "Chest", "Legs", "Main-hand", "Off-hand"]
+    for stat_name, combat_stat_name in zip_longest(unit.core_stats, unit.combat_stats):
+        # Stats
+        core_values = unit.core_stats.get(stat_name, 0)
+        bonus_values = unit.bonus_stats.get(stat_name, 0)
+        total_values = unit.total_stats.get(stat_name, 0)
+
+        combat_values = unit.combat_stats.get(combat_stat_name, 0)
+        bonus_combat_values = unit.bonus_combat_stats.get(combat_stat_name, 0)
+        total_combat_values = unit.total_combat_stats.get(combat_stat_name, 0)
+
+        gear_obj = unit.gear.get(gear_slot) if gear_slot else None
+
+        display_gear_label = gear_slot_label or " "
+
+        gear_name = gear_obj.name if gear_obj else "---"
+        get_gear_health = get_stat(gear_obj,"health")
+        get_gear_strength = get_stat(gear_obj,"strength")
+        get_gear_agility = get_stat(gear_obj,"agility")
+        get_gear_intelligence = get_stat(gear_obj,"intelligence")
+        get_gear_defense = get_stat(gear_obj,"defense")
+        get_gear_speed = get_stat(gear_obj,"speed")
+
+        if isinstance(gear_obj, Weapon):
+            gear_weapon_damage = gear_obj.weapon_damage if gear_obj.weapon_damage > 0 else "-"
+        else: 
+            gear_weapon_damage = "-"
+
+        if isinstance(gear_obj, Weapon):
+            gear_spell_power = gear_obj.spell_power if gear_obj.spell_power > 0 else "-"
+        else: 
+            gear_spell_power = "-"
+   
+        stats_part =   f"║ {stat_name.capitalize():<{NAME_SPACE}}║ {total_values:^{stats_space_w}}({core_values:^{stats_space_w}}+{bonus_values:^{stats_space_w}}) ║"
+        stat_info_top =    f"{'═'*stats_space_w}╦{'═'*stats_space_w}╦{'═'*stats_space_w}╦{'═'*stats_space_w}╦{'═'*stats_space_w}╦{'═'*stats_space_w}╦{'═'*stats_space_w}╗"
+        stat_info_middle = f"{'═'*stats_space_w}╬{'═'*stats_space_w}╬{'═'*stats_space_w}╬{'═'*stats_space_w}╬{'═'*stats_space_w}╬{'═'*stats_space_w}╬{'═'*stats_space_w}╣"
+        stat_info_bottom = f"{'═'*stats_space_w}╩{'═'*stats_space_w}╩{'═'*stats_space_w}╩{'═'*stats_space_w}╩{'═'*stats_space_w}╩{'═'*stats_space_w}╩{'═'*stats_space_w}╝"
+        # Labels and Info for Gear and Equippable
+        gear_labels = f"{'Dmg':^{stats_space_w}}║{'Hp':^{stats_space_w}}║{'Str':^{stats_space_w}}║{'Agi':^{stats_space_w}}║{'Itn':^{stats_space_w}}║{'Def':^{stats_space_w}}║{'Spd':^{stats_space_w}}║"
+
+        # Gear Table
+        gear_top_parts =     f"╔{'═'*GEAR_SLOT}╦{'═'*GEAR_ITEM}╦{stat_info_top}"
+        gear_middle_part =   f"╠{'═'*GEAR_SLOT}╬{'═'*GEAR_ITEM}╬{stat_info_middle}"
+        gear_bottom_border = f"╚{'═'*GEAR_SLOT}╩{'═'*GEAR_ITEM}╩{stat_info_bottom}"
+        gear_title_part =  f"║ {'Gear':^{gear_slot_name_w}} ║ {'Items':^{gear_item_name_w}} ║{gear_labels}"
+
+
+        gear_stats_columns_txt = (
+                                f"{gear_name:<{gear_item_name_w}} ║{gear_weapon_damage:^{stats_space_w}}║"
+                                f"{get_gear_health:^{stats_space_w}}║{get_gear_strength:^{stats_space_w}}║"
+                                f"{get_gear_agility:^{stats_space_w}}║{get_gear_intelligence:^{stats_space_w}}║"
+                                f"{get_gear_defense:^{stats_space_w}}║{get_gear_speed:^{stats_space_w}}║")
+        
+        gear_table_into_txt =   f"║ {display_gear_label:<{gear_slot_name_w}} ║ {gear_stats_columns_txt}"
+
+        stats_part =        f"║ {stat_name.capitalize():<{NAME_SPACE}}║ {total_values:^{stats_space_w}}({core_values:^{stats_space_w}}+{bonus_values:^{stats_space_w}}) ║"
+        combat_stats_part = f"║ {combat_stat_name.capitalize():<{NAME_SPACE}}║ {total_combat_values:^{stats_space_w}}({combat_values:^{stats_space_w}}+{bonus_combat_values:^{stats_space_w}}) ║"
+        print(f"{left_side}{column_space_w}{middle_part}{column_space_w}{middle_part}{column_space_w}{column_space_w}{right_side}")
+        print(f"{left_side}{column_space_w}{stats_part}{column_space_w}{combat_stats_part}{column_space_w}{right_side}")
+
+
 def show_unit_stats_buffs_debuffs(unit):
     middle_space_w = MIDDLE_SPACE
     middle_long_space_w = DESCRIPTION_NAME +2
@@ -64,21 +151,19 @@ def show_unit_stats_buffs_debuffs(unit):
     print(f"{left_side}{column_space_w}{bot_part}{column_space_w}{bot_part_long}{column_space_longer_w}{bot_part_long}{column_space_w}{right_side}")
 
 def show_inventory(unit):
+    print(unit.gold)
     equippable = [item for item in unit.inventory["backpack"] if isinstance(item, Equippable)]
     potions = [potion for potion in unit.inventory["backpack"] if isinstance(potion, Potion)] 
     others = [other for other in unit.inventory["backpack"] if isinstance(other, (Junk, Material))]
-    indexed_equippable = [(i+1, item) for i, item in enumerate(equippable)]
-    indexed_potions = [(i+1, potion) for i, potion in enumerate(potions)]
-    indexed_others = [(i+1, potion) for i, potion in enumerate(others)] 
-    for index, item in indexed_equippable:
-        print(f"{index}. {item.name} Value: {item.value}")
-        
-    for index, potion in indexed_potions:
-        print(f"{index}. {potion.name} Value: {potion.value}")
+    indexed_equippable = [(i, item) for i, item in enumerate(equippable, start=1)]
+    indexed_potions = [(i, potion) for i, potion in enumerate(potions, start=1)]
+    indexed_others = [(i, potion) for i, potion in enumerate(others, start=1)] 
 
-    for index, other in indexed_others:
-        print(f"{index}. {other.name} Amount: {other.amount} Value: {other.total_value}")
-    print(unit.gold)
+
+    for (item_i, item), (potion_i, potion,)  in zip_longest(indexed_equippable, indexed_potions, ):
+        print(f"{item_i} {item.name} {potion_i} {potion.name}")
+        
+        potion_part = f"{potion_i}. {potion.name} {potion.healing_amount} {potion.restore_mana}" 
 
 def get_stat(obj, name):
     if not obj: 

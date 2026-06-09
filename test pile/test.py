@@ -58,14 +58,30 @@ def check_lowest_health(team):
 
 
 
-a= 1
-b = 0
-def test(a,b):
-    if b  == 0:
-        b = a
+print(1//1) 
+
+PER_STRENGHT = 2.5
+PER_AGILITY = 2
+PER_INT = 1
 
 
-    r = random.randint(a,b)
-    print(r)
 
-test(1,0)
+
+def how_much_my_hp(self):
+    if self.health >= 90:
+        return 1
+    elif self.health >=75: 
+        return 2
+    elif self.health >= 50:
+        return 3
+    elif self.health >= 25:
+        return 4
+    else: 
+        return 5
+
+def can_heal_myself(self):
+    for spell in self.spellbook:
+        if spell.tag == "heal":
+            return True
+def can_use_potion_to_heal(self):
+    return any(isinstance(p, Potion) and p.tag == "health" for p in self.backpack)
