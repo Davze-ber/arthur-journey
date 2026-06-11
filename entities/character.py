@@ -2,6 +2,7 @@ import random
 from typing import Any
 from items import Item, Weapon, Potion, Armor
 from constance import MIN_DAMAGE, MAX_DAMAGE
+from abilities.skills import HeadButt
  
 stats_lst: list[str] = ["health", "strength", "agility", "intelligence", "defense", "speed"]
 combat_stats_lst: list[str] = ["weapon_power", "spell_power", "crit_chance", "crit_damage", "dodge_chance", "block_chance"]
@@ -43,7 +44,7 @@ class Character:
             "mana" : 1
         }
 
-        self.gear: dict[str,Any] = {
+        self.gear: dict[str, Equippable | None] = {
             "head": None,
             "neck": None,
             "chest": None,
@@ -52,7 +53,7 @@ class Character:
             "off_hand":None,
                     }
         self.inventory: dict[str,Any] = {
-            "gold" : 0,
+            "gold"    : 0,
             "backpack": []
         }
         self.buff_lst: list[Any] = []    
@@ -155,7 +156,7 @@ class Character:
                 for combat_stat in combat_stats_lst:
                     bonus_combat_stats[combat_stat] += getattr(item, combat_stat, 0)
 
-        bonus_combat_stats["weapon_power"] += (self.total_stats["strength"] * 2)
+        bonus_combat_stats["weapon_power"] += (self.total_stats["strength"] * 0.5 + self.total_stats["agility"] * 0.25)
         bonus_combat_stats["spell_power"] += (self.total_stats["intelligence"] * 0.5)
 
         return bonus_combat_stats
@@ -189,8 +190,15 @@ class Character:
           
         elif self.faction == "enemy":
             target = player_team[0]
-
-        self.basic_attack(target)
+        if len(self.spellbook) >0 :
+            for spell in self.spellbook:
+                if spell.can_cast(self):
+                    spell.deal_damage(self, target)
+                    spell.apply_cost(self)
+                    spell.display_cost_damage(self)
+                    break
+        else:
+            self.basic_attack(target)
         return [target]
 
 

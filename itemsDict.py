@@ -1,4 +1,4 @@
-from items import Item, Potion, Weapon, Material, Junk
+from items import Item, Potion, Weapon, Material, Junk, Shield
 
 material_lst = {
     "Wolf Fur" : lambda: Material("Wolf Fur", "crafting", "material",can_stack=True, value=2)
@@ -17,6 +17,7 @@ item_lst = {
 weapon_dict = {
     "Wood Stick" : lambda: Weapon("Wooden Stick", "weapon", "main_hand", 0, weapon_damage=1),
     "Axe" : lambda: Weapon("Axe", "weapon", "main_hand", 10, weapon_damage=2),
+    "Wand" : lambda: Weapon("Wand", "weapon", "main_hand", 10, weapon_damage=1, spell_damage=2)
 }
 
 
@@ -25,5 +26,5 @@ armor_dict = {
 }
 
 shield_dict = {
-    "Small Shield" : lambda: Weapon(name="Small Shield", category="shield", tag="off_hand", value=0, block_chance=5),
+    "Small Shield" : lambda: Shield(name="Small Shield", category="shield", tag="off_hand", value=0, block_chance=5),
 }

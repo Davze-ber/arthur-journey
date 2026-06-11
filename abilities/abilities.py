@@ -10,12 +10,12 @@ class Ability():
         self.second_stat = second_stat
         self.primary_ratio = primary_ratio
         self.secondary_ratio = secondary_ratio
-        self. description = description
+        self.description = description
 
 
     @property
     def category(self) -> str:
-        if self.main_stat in ["strenght, agility"]:
+        if self.main_stat in ["strength, agility"]:
             return "Physical"
         elif self.main_stat == "intelligence":
             return "Magical"
@@ -33,7 +33,7 @@ class Ability():
         if unit.resource_type in ["rage", "energy"]: 
             bonus_damage = weapon_power
           
-        if unit.resource_type in ["mana"]:
+        elif unit.resource_type in ["mana"]:
             bonus_damage = spell_power
         else:
             bonus_damage = weapon_power + spell_power
@@ -61,3 +61,18 @@ class Ability():
         if target.current_health <= 0:
             target.current_health = 0
             target.is_alive = False
+
+    def display_cost_damage(self,unit):
+        dmg = self.calc_damage(unit)
+        weapon_spell_damage = f"WP: {unit.total_combat_stats["weapon_power"]} |SP: {unit.total_combat_stats["spell_power"]}"
+        calc_prima = unit.total_stats[self.main_stat]* self.primary_ratio
+        prima_damage = f"{self.main_stat.capitalize()}: {unit.total_stats[self.main_stat]} Ratio: {self.primary_ratio}"
+        calc_second = unit.total_stats[self.second_stat]* self.secondary_ratio
+        second_damage = f"{self.second_stat.capitalize()}: {unit.total_stats[self.second_stat]} Ratio: {self.secondary_ratio}"
+
+        total = f"Cost: {self.cost} {self.resource.capitalize()}|Total: {dmg} Damage |{weapon_spell_damage} |{prima_damage} {calc_prima}|{second_damage} { calc_second}"
+        print(total)
+
+    def clone(self):
+        return type(self)(self.name,self.tag,self.resource,self.cost,self.main_stat,self.second_stat,self.primary_ratio,self.secondary_ratio,self.description,self.category
+        )

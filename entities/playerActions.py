@@ -1,5 +1,5 @@
 from items import Item, Potion, Weapon, Armor, Equippable
-from constance import BOX_WIDTH, BUTTON_WIDTH
+from ui_constance import BOX_WIDTH, BUTTON_WIDTH
 from entities.enemies import Enemy
 from entities.playerCharacter import Player
 
@@ -19,7 +19,7 @@ def show_menu(player):
         player_option = input().center(BOX_WIDTH ).strip().lower()
         print(f"{ui_frames.top_border_char*BOX_WIDTH}")
         if player_option == "1":
-            ui_player.show_unit_stats_buffs_debuffs(player)
+            ui_player.print_stats_table(player)
         elif player_option == "2":
             ui_player.show_inventory(player)
         elif player_option == "3":
@@ -96,3 +96,4 @@ def after_a_fight(player):
             elif player_decision == "5":
                 after_a_fight = False
                 time.sleep(1)
+

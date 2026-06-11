@@ -24,13 +24,13 @@ class Equippable(Item):
         return type(self.name, self.category, self.tag, self.value, **self.stats)
     
 class Weapon(Equippable):
-    def __init__(self, name: str, category: str, tag: str, value: int = 0, health:int = 0, strength:int = 0, agility:int = 0, intelligence:int = 0, defense:int = 0, speed:int = 0, weapon_damage: int = 0, spell_damage: int = 0):
+    def __init__(self, name: str, category: str, tag: str, value: int = 0, health:int = 0, strength:int = 0, agility:int = 0, intelligence:int = 0, defense:int = 0, speed:int = 0, weapon_damage: int = 0, spell_power: int = 0):
         super().__init__(name, category, tag, value, health, strength, agility, intelligence, defense, speed)
         self.weapon_damage = weapon_damage
-        self.spell_damage = spell_damage
+        self.spell_power = spell_power
 
     def clone(self):
-        return Weapon(self.name, self.category, self.tag, self.value, **self.stats, weapon_damage=self.weapon_damage, spell_damage=self.spell_damage
+        return Weapon(self.name, self.category, self.tag, self.value, **self.stats, weapon_damage=self.weapon_damage, spell_power=self.spell_power
                       )
 class Armor(Equippable):
     def __init__(self, name: str, category: str, tag: str, value: int = 0, health:int = 0, strength:int = 0, agility:int = 0, intelligence:int = 0, defense:int = 0, speed:int = 0):

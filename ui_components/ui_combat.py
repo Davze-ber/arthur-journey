@@ -1,4 +1,4 @@
-from constance import COMBAT_HP_RES_BAR, COMBAT_HP_RES_LEN, COMBAT_HP_RES_SPACE, COMBAT_NAME_SPACE
+from ui_constance import COMBAT_HP_RES_BAR, COMBAT_HP_RES_LEN, COMBAT_HP_RES_SPACE, COMBAT_NAME_SPACE
 from itertools import zip_longest
 from .ui_frames import left_side,right_side, column_space_w
 
@@ -65,4 +65,4 @@ def show_spells(unit):
                 spell_category = spell.category
                 spell_tag = spell.tag
                 spell_cost_damage = spell.display_cost_damage(unit)
-                print(f"{i}. {spell.name}, {spell.category} {spell_tag}, {spell.display_cost_damage(unit)}")
+                print(f"{i}. {spell.name}, {spell.category} {spell_tag}, {spell_cost_damage}")

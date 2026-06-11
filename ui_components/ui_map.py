@@ -1,4 +1,4 @@
-from constance import BOX_WIDTH
+from ui_constance import BOX_WIDTH
 from .ui_frames import left_side,right_side,column_space_w, middle, bot_border_char,top_border_char
 def show_available_locations(world_map):
     MAP_INDEX = 5

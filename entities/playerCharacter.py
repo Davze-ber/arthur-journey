@@ -1,14 +1,15 @@
 from entities.character import Character
 from items import Item, Weapon, Armor
-from itemsDict import item_lst,weapon_dict
+from itemsDict import item_lst, weapon_dict, shield_dict, armor_dict
 from abilities.spells import FireBolt
 from typing import Any
-
+import abilities.spellbook as spellbook
 import ui_components.ui_combat as ui_combat
 
 class Player(Character):
-    def __init__(self, name: str, resource_type: str, health: int, strength: int, agility: int, intelligence: int, defense: int, speed: int, level: int, experience: int):
+    def __init__(self, name: str, resource_type: str,vocation: str, health: int, strength: int, agility: int, intelligence: int, defense: int, speed: int, level: int, experience: int):
         super().__init__(name, resource_type, health, strength, agility, intelligence, defense, speed, level, experience )
+        self.vocation = vocation
         self.faction:str = "player"
         self.allies = []
         self.gear: dict[str,Any]= {
@@ -16,7 +17,7 @@ class Player(Character):
            "chest": None,
            "neck" : None,
            "legs": None,
-           "main_hand":  weapon_dict["Wood Stick"]() ,
+           "main_hand": None ,
            "off_hand":None,
                    }
         
@@ -30,8 +31,25 @@ class Player(Character):
 
         
         self.spellbook = [
-            FireBolt()
+     
         ]
+    def choose_vocation(self, job):
+        if job == "warrior":
+            self.vocation == "warrior"
+            self.core_stats["strength"] += 1
+            self.gear["main_hand"] = weapon_dict["Wood Stick"]()
+            self.gear["off_hand"] = shield_dict["Small Shield"]()
+            self.resource_type = "rage"
+        elif job == "ranger":
+            self.vocation == "ranger"
+            self.core_stats["agility"] += 1
+            self.gear["main_hand"] = None
+            self.resource_type = "energy"
+        elif job == "mage":
+            self.vocation == "mage"
+            self.core_stats["intelligence"] += 1
+            self.gear["main_hand"] = weapon_dict["Wand"]()
+            self.resource_type = "mana"
 
     def choose_the_target(self,player_team, enemy_team):
         if len(enemy_team) == 1:

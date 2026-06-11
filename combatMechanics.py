@@ -119,6 +119,7 @@ def player_combat_choice(player, player_team, enemy_team):
             target = player.choose_the_target(player_team, enemy_team)
             chosen_spell.deal_damage(player,target)
             chosen_spell.apply_cost(player)
+   
             targets = [target]
             turn_in_progress = False
             
