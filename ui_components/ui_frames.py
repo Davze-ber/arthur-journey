@@ -34,14 +34,18 @@ def print_button(text):
     print(f"{left_side}{text:^11}{right_side}", end="")
     print(f"{bot_border_char*15}", end="")
     
+def print_empty_line():
+    print(f"{left_side}{" " * middle}{right_side}")
+    
 def print_menu(text1,text2,text3,text4):
     space_side_w = " " *5
     space_middle_w = " " * 6
+    space_middle_long_w = " " * 7
     width_button = 27
     middle_button = 23
-    print(f"{left_side}{space_side_w}{top_border_char*width_button}{space_middle_w}{top_border_char*width_button}{space_middle_w}{top_border_char*width_button}{space_middle_w}{top_border_char*width_button}{space_side_w}{right_side}")
+    print(f"{left_side}{space_side_w}{top_border_char*width_button}{space_middle_w}{top_border_char*width_button}{space_middle_long_w}{top_border_char*width_button}{space_middle_w}{top_border_char*width_button}{space_side_w}{right_side}")
 
-    print(f"{left_side}{space_side_w}{left_side}{text1:^{middle_button}}{right_side}{space_middle_w}{left_side}{text2:^{middle_button}}{right_side}{space_middle_w}{left_side}{text3:^{middle_button}}{right_side}{space_middle_w}{left_side}{text4:^{middle_button}}{right_side}{space_side_w}{right_side}")
+    print(f"{left_side}{space_side_w}{left_side}{text1:^{middle_button}}{right_side}{space_middle_w}{left_side}{text2:^{middle_button}}{right_side}{space_middle_long_w}{left_side}{text3:^{middle_button}}{right_side}{space_middle_w}{left_side}{text4:^{middle_button}}{right_side}{space_side_w}{right_side}")
 
-    print(f"{left_side}{space_side_w}{bot_border_char*width_button}{space_middle_w}{bot_border_char*width_button}{space_middle_w}{bot_border_char*width_button}{space_middle_w}{bot_border_char*width_button}{space_side_w}{right_side}")
+    print(f"{left_side}{space_side_w}{bot_border_char*width_button}{space_middle_w}{bot_border_char*width_button}{space_middle_long_w}{bot_border_char*width_button}{space_middle_w}{bot_border_char*width_button}{space_side_w}{right_side}")
  

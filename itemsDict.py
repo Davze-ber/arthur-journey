@@ -17,7 +17,7 @@ item_lst = {
 weapon_dict = {
     "Wood Stick" : lambda: Weapon("Wooden Stick", "weapon", "main_hand", 0, weapon_damage=1),
     "Axe" : lambda: Weapon("Axe", "weapon", "main_hand", 10, weapon_damage=2),
-    "Wand" : lambda: Weapon("Wand", "weapon", "main_hand", 10, weapon_damage=1, spell_damage=2)
+    "Wand" : lambda: Weapon("Wand", "weapon", "main_hand", 10, weapon_damage=1, spell_power=2)
 }
 
 

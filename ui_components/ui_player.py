@@ -2,8 +2,8 @@ from ui_constance import BOX_WIDTH, BUTTON_WIDTH, COLUMN_SPACE
 from ui_constance import STATS_NAME, STATS_SPACE, COMBAT_NAME, COMBAT_SPACE, NAME_SPACE, GEAR_ITEM, GEAR_SLOT, EQUIPPABLE_NAME #Stats, Combat, Gear, Equippable
 from itertools import zip_longest
 from items import Armor, Weapon, Potion, Equippable, Item, Junk, Material
-from .ui_frames import left_side,right_side, middle
-
+from .ui_frames import left_side,right_side, middle, print_empty_line
+from .ui_combat import format_unit_info
 # Stats and Combat Widths
 stat_name_w = STATS_NAME
 stats_space_w = STATS_SPACE
@@ -19,8 +19,8 @@ column_space_w = COLUMN_SPACE * " "
 
 
 gear_slot_w = GEAR_SLOT
-gear_slot_name_w = gear_slot_w - 2
-gear_item_name_w = GEAR_ITEM - 2
+gear_slot_name_w = gear_slot_w - 1
+gear_item_name_w = GEAR_ITEM - 1
 
 gear_lst = ["Head", "Neck", "Chest", "Legs", "Main-hand", "Off-hand"]
 
@@ -131,7 +131,13 @@ def print_stats_table(unit):
     unit_stats = get_stats_table(unit)
     unit_combat = get_combat_stats_table(unit)
     unit_gear = get_gear_table(unit)
+    unit_name_txt, unit_hp_txt, unit_hp_bar, unit_res_txt, unit_res_bar = format_unit_info(unit)
+    print_empty_line()
+    unit_info =f"{unit.name:<10}{column_space_w}Level: {unit.level:<3}{column_space_w}Experience: {unit.experience:<6}{column_space_w}Gold: {unit.gold:<6}{unit_hp_txt}{unit_hp_bar}{unit_res_txt}{unit_res_bar}"
+
+    print(f"{left_side}{column_space_w}{unit_info}{column_space_w}{right_side}")
+    print_empty_line()
     for gear_item, stats, combat_stats in zip_longest(unit_gear, unit_stats, unit_combat):
-        print(f"{left_side}{column_space_w}{gear_item}{column_space_w}{combat_stats}{column_space_w}{stats}")
+        print(f"{left_side}{column_space_w}{stats}{column_space_w}{combat_stats}{column_space_w}{gear_item}{column_space_w}{right_side}")
 
     

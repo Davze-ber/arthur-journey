@@ -14,7 +14,7 @@ class Character:
         self.name = name
         self.is_alive: bool = True
         self.is_stunned: bool = False
-        self.faction: str = None
+        self.faction: str | None = None
         self.experience = experience
         self.level = level
         self.resource_type = resource_type
@@ -60,12 +60,38 @@ class Character:
         self.debuff_lst: list[Any] = []
         self.spellbook: list[Any] = []
 
-        self.current_health: int = self.total_stats["health"]
+        self._current_health: int = self.total_stats["health"]
         
         if self.resource_type == "rage":
-            self.current_resource = 0
+            self._current_resource = 0
         else:
-            self.current_resource = self.max_resource
+            self._current_resource = self.max_resource
+    @property
+    def current_health(self):
+        return self._current_health
+
+    @current_health.setter
+    def current_health(self, value):
+        if value <= 0:
+            self._current_health = 0
+            self.is_alive = False
+        elif value > self.max_health:
+            self._current_health = self.max_health
+        else:
+            self._current_health = value
+
+    @property
+    def current_resource(self):
+        return self._current_resource
+
+    @current_resource.setter
+    def current_resource(self,value):
+        if value < 0:
+            self._current_resource = 0
+        elif value > self.max_resource:
+            self._current_resource = self.max_resource
+        else:
+            self._current_resource = value
 
     @property
     def max_resource(self) -> int:
@@ -78,6 +104,7 @@ class Character:
         if self.resource_type == "mana":
             intelligence_increase = int(self.total_stats["intelligence"]*5)
             return self.base_mana + intelligence_increase
+        return 100
 
     @property
     def bonus_res_regen(self):
@@ -218,20 +245,20 @@ class Character:
     def apply_potion_effect(self, source) -> None:
         if source.tag == "Rejuvenation" :
             heal_amount = getattr(source, "healing_amount", 0)
-            self.current_health = min(self.current_health + heal_amount, self.max_health)
+            self.current_health += heal_amount
 
             if self.resource_type == "mana":
                 mana_amount = getattr(source, "restore_mana", 0)
-                self.current_resource = min(self.current_resource + mana_amount, self.max_resource)
+                self.current_resource += mana_amount
 
         elif source.tag == "Health":
             heal_amount = getattr(source, "healing_amount", 0)
-            self.current_health = min(self.current_health + heal_amount, self.max_health)
+            self.current_health += heal_amount
 
         elif source.tag == "Mana":
             if self.resource_type == "mana":
                 mana_amount = getattr(source, "restore_mana", 0)
-                self.current_resource = min(self.current_resource + mana_amount, self.max_resource)
+                self.current_resource += mana_amount
 
     def use_potion(self) -> bool:
         potions = list(filter(lambda item: isinstance(item, Potion), self.backpack))
@@ -254,21 +281,18 @@ class Character:
             print(f"{self.name} use {chosen_potion.name} and healed {chosen_potion.healing_amount}: and restored {chosen_potion.restore_mana}")
         elif chosen_potion.tag == "health":
             print(f"{self.name} use {chosen_potion.name} and healed {chosen_potion.healing_amount}:")
-        elif chosen_potion.tag == "nana":
+        elif chosen_potion.tag == "mana":
             print(f"{self.name} use {chosen_potion.name} and restored {chosen_potion.restore_mana}:")
         return True
 
     def resource_regeneration(self):
-        if self.resource_type == "rage":
-            self.current_resource = min(self.current_resource + self.total_res_regen["rage"], self.max_resource)
-        elif self.resource_type == "energy":
-            self.current_resource = min(self.current_resource + self.total_res_regen["energy"], self.max_resource)
-        elif self.resource_type == "mana":
-            self.current_resource = min(self.current_resource + self.total_res_regen["mana"], self.max_resource)
+        regen_amount = self.total_res_regen.get(self.resource_type, 0)
+        self.current_resource += regen_amount
 
     def rage_regeneration(self):
         if self.resource_type == "rage":
-            self.current_resource = min(self.current_resource + self.total_res_regen["rage"] + 2 , self.max_resource)
+            bonus_rage = 2
+            self.current_resource += self.total_res_regen["rage"] + bonus_rage
         
 
         

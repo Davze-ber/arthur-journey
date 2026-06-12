@@ -23,15 +23,13 @@ ui_frames.print_titles("Welcome!")
 ui_frames.print_titles("Nice to meet you, Arthur!")
 ui_frames.print_titles("Are you ready to go on the adventure?")
 player = Player(name="Arthur", resource_type= None,vocation=None, health=5,strength=1,agility=1, intelligence=1, defense=1,speed=1,level=1,experience=0)
-print("1. Warrior 2. Range 3. Mage")
-
+print("1. Warrior 2. Ranger 3. Mage")
+ui_frames.print_bot_layer()
 vocation_choice = input(">")
 selected = vocation_selector(vocation_choice)
 player.choose_vocation(selected)
-
-
 # Player Stats
-
+ui_frames.print_top_layer()
 aP.show_menu(player)
 
 

@@ -8,7 +8,7 @@ import ui_components.ui_combat as ui_combat
 
 class Player(Character):
     def __init__(self, name: str, resource_type: str,vocation: str, health: int, strength: int, agility: int, intelligence: int, defense: int, speed: int, level: int, experience: int):
-        super().__init__(name, resource_type, health, strength, agility, intelligence, defense, speed, level, experience )
+        super().__init__(name, "None", health, strength, agility, intelligence, defense, speed, level, experience )
         self.vocation = vocation
         self.faction:str = "player"
         self.allies = []
@@ -33,23 +33,34 @@ class Player(Character):
         self.spellbook = [
      
         ]
+
+        self.choose_vocation(vocation)
+
+        if self.resource_type == "rage":
+            self.current_resource = 0
+        else:
+            self.current_resource = self.max_resource
+
     def choose_vocation(self, job):
         if job == "warrior":
-            self.vocation == "warrior"
+            self.vocation = "warrior"
             self.core_stats["strength"] += 1
             self.gear["main_hand"] = weapon_dict["Wood Stick"]()
             self.gear["off_hand"] = shield_dict["Small Shield"]()
             self.resource_type = "rage"
+            self.current_resource = 0
         elif job == "ranger":
-            self.vocation == "ranger"
+            self.vocation = "ranger"
             self.core_stats["agility"] += 1
             self.gear["main_hand"] = None
             self.resource_type = "energy"
+            self.current_resource = self.max_resource
         elif job == "mage":
-            self.vocation == "mage"
+            self.vocation = "mage"
             self.core_stats["intelligence"] += 1
             self.gear["main_hand"] = weapon_dict["Wand"]()
             self.resource_type = "mana"
+            self.current_resource = self.max_resource
 
     def choose_the_target(self,player_team, enemy_team):
         if len(enemy_team) == 1:
