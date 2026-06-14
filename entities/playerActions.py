@@ -1,4 +1,4 @@
-from items import Item, Potion, Weapon, Armor, Equippable
+from items_inventory.items import Item, Potion, Weapon, Armor, Equippable
 from ui_constance import BOX_WIDTH, BUTTON_WIDTH
 from entities.enemies import Enemy
 from entities.playerCharacter import Player
@@ -14,28 +14,28 @@ def show_menu(player):
     menu = True
     while menu:
         # options show_player_gear_and_inventory(), show_stats(), equip()
-        ui_frames.print_menu("1. Show Stats", "2. Show Inv", "3. Gear & Equip", "4. Depart")
+        ui_frames.print_menu("1. Show Stats", "2. Show Inv", "3. Gear", "4. Depart")
         print(f"{ui_frames.bot_border_char*BOX_WIDTH}")
         player_option = input().center(BOX_WIDTH ).strip().lower()
         print(f"{ui_frames.top_border_char*BOX_WIDTH}")
         if player_option == "1":
             ui_player.print_stats_table(player)
         elif player_option == "2":
-            ui_player.show_inventory(player)
+            ui_player.print_inventory(player)
         elif player_option == "3":
             while True:
-                ui_player.show_unit_gear_inv(player, player)
+                ui_player.print_gear_equippable(player)
                 ui_frames.print_menu("1. Change Character", "2. Equiq Item", "3. Unequip Item", "4. Back")
                 player_choice = input(">")
                 if player_choice == "1":
                     pass
                 elif player_choice == "2":
-                    playerActions.equip(player)
+                    equip(player)
                 elif player_choice == "3":
                     pass
                 elif player_choice == "4":
                     break
-
+            
         elif player_option == "4":
             ui_map.show_available_locations(world_map)
             while True:

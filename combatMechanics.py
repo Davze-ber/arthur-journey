@@ -3,8 +3,8 @@ from entities.character import Character
 from entities.enemies import Enemy, enemies_dict
 from maps import world_map
 from typing import Type
-from items import Material, Junk
-import inventoryLogic as invLo
+from items_inventory.items import Material, Junk
+import items_inventory.inventoryLogic as invLo
 import entities.playerActions as pA
 import ui_components.ui_combat as ui_combat
 import ui_components.ui_frames as ui_frames

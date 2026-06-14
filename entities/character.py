@@ -1,6 +1,6 @@
 import random
 from typing import Any
-from items import Item, Weapon, Potion, Armor
+from items_inventory.items import Item, Weapon, Potion, Armor, Equippable
 from constance import MIN_DAMAGE, MAX_DAMAGE
 from abilities.skills import HeadButt
  

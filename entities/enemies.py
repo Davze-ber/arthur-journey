@@ -1,7 +1,7 @@
 from entities.character import Character
 from abilities.skills import HeadButt
-from items import Item, Weapon, Armor
-from itemsDict import item_lst, weapon_dict, material_lst,junk_lst
+from items_inventory.items import Item, Weapon, Armor
+from items_inventory.itemsDict import item_lst, weapon_dict, material_lst,junk_lst
 
 class Enemy(Character):
    def __init__(self, name:str , resource_type: str, health: int, strength: int, agility: int, intelligence: int, defense: int, speed: int, level: int, experience: int, gold:int = 0, loot: list[dict] = None, spellbook: list[dict] = None):

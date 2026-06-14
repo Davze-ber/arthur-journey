@@ -56,7 +56,7 @@ def show_player_combat_option(player):
       player_option = f"1. Attack 2. Skills 3. Use Potion"
     elif player.resource_type == "mana":
       player_option = f"1. Attack 2. Spell Book 3. Use Potion"
-    print(f"{left_side}{column_space_w}{player_option:<132}{column_space_w}{right_side}")
+    print(f"{left_side}{column_space_w}{player_option:<133}{column_space_w}{right_side}")
 
 def show_spells(unit):
     for i, spell in enumerate(unit.spellbook, start=1):

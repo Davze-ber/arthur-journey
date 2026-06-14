@@ -2,7 +2,7 @@
 from entities.enemies import enemies_dict
 from entities.playerCharacter import Player
 import entities.playerCharacter as playerCharacter
-from items import Item, Potion, Weapon
+from items_inventory.items import Item, Potion, Weapon
 from ui_constance import BOX_WIDTH, BUTTON_WIDTH
 import entities.playerActions as aP
 import combatMechanics

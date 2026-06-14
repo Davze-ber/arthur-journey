@@ -1,6 +1,6 @@
 from entities.character import Character
-from items import Item, Weapon, Armor
-from itemsDict import item_lst, weapon_dict, shield_dict, armor_dict
+from items_inventory.items import Item, Weapon, Armor
+from items_inventory.itemsDict import item_lst, weapon_dict, shield_dict, armor_dict
 from abilities.spells import FireBolt
 from typing import Any
 import abilities.spellbook as spellbook
@@ -26,7 +26,8 @@ class Player(Character):
             item_lst["Lesser Potion"](),
             item_lst["Strong Potion"](),
             weapon_dict["Wood Stick"](),
-            weapon_dict["Axe"]()
+            weapon_dict["Axe"](),
+            item_lst["Rejuvenation Potion"]()
             ]
 
         

@@ -1,5 +1,5 @@
 from ui_constance import BOX_WIDTH, BUTTON_WIDTH, COLUMN_SPACE
-from ui_constance import COMBAT_HP_RES_BAR, COMBAT_HP_RES_LEN, COMBAT_HP_RES_SPACE, COMBAT_NAME_SPACE
+
 import re
 top_border_char = "▄"
 bot_border_char = "▀"
