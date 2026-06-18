@@ -4,6 +4,8 @@ from entities.playerCharacter import Player
 import entities.playerCharacter as playerCharacter
 from items_inventory.items import Item, Potion, Weapon
 from ui_constance import BOX_WIDTH, BUTTON_WIDTH
+
+from ui_components.ui_frames import get_menu
 import entities.playerActions as aP
 import combatMechanics
 import ui_components.ui_frames as ui_frames
@@ -31,7 +33,7 @@ player.choose_vocation(selected)
 # Player Stats
 ui_frames.print_top_layer()
 aP.show_menu(player)
-
+print(len("█  1. Show Stats   █"))
 
 
 

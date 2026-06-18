@@ -1,6 +1,6 @@
 from ui_constance import COMBAT_HP_RES_BAR, COMBAT_HP_RES_LEN, COMBAT_HP_RES_SPACE, COMBAT_NAME_SPACE
 from itertools import zip_longest
-from .ui_frames import left_side,right_side, column_space_w
+from .ui_frames import left_side,right_side, col_w
 
 def show_hp_and_res_bar(unit):
     if not unit:
@@ -60,9 +60,5 @@ def show_player_combat_option(player):
 
 def show_spells(unit):
     for i, spell in enumerate(unit.spellbook, start=1):
-                spell_name = spell.name
-                spell_description = spell.description
-                spell_category = spell.category
-                spell_tag = spell.tag
                 spell_cost_damage = spell.display_cost_damage(unit)
-                print(f"{i}. {spell.name}, {spell.category} {spell_tag}, {spell_cost_damage}")
+                print(f"{i}. {spell.name}, {spell.category} {spell.tag}, {spell_cost_damage}")

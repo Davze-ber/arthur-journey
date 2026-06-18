@@ -14,7 +14,7 @@ def show_menu(player):
     menu = True
     while menu:
         # options show_player_gear_and_inventory(), show_stats(), equip()
-        ui_frames.print_menu("1. Show Stats", "2. Show Inv", "3. Gear", "4. Depart")
+        ui_frames.get_menu("Show Stats", "Show Inv", "Gear", "Town","Depart")
         print(f"{ui_frames.bot_border_char*BOX_WIDTH}")
         player_option = input().center(BOX_WIDTH ).strip().lower()
         print(f"{ui_frames.top_border_char*BOX_WIDTH}")
@@ -36,7 +36,7 @@ def show_menu(player):
                 elif player_choice == "4":
                     break
             
-        elif player_option == "4":
+        elif player_option == "5":
             ui_map.show_available_locations(world_map)
             while True:
                 print(f"Where to go?                                          X. Back ")

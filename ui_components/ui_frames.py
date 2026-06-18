@@ -1,4 +1,4 @@
-from ui_constance import BOX_WIDTH, BUTTON_WIDTH, COLUMN_SPACE
+from ui_constance import BOX_WIDTH, BUTTON_WIDTH, BUTTON_TEXT, BUTTON_SPACE, COLUMN_SPACE
 
 import re
 top_border_char = "▄"
@@ -7,7 +7,7 @@ border_width = BOX_WIDTH - 2
 middle = BOX_WIDTH - 4
 left_side = "█ "
 right_side = " █"
-column_space_w = COLUMN_SPACE * " "
+col_w = COLUMN_SPACE * " "
 RESET = "\033[0m"
 BOLD_CYAN = "\033[1;36m"
 
@@ -49,3 +49,28 @@ def print_menu(text1,text2,text3,text4):
 
     print(f"{left_side}{space_side_w}{bot_border_char*width_button}{space_middle_w}{bot_border_char*width_button}{space_middle_long_w}{bot_border_char*width_button}{space_middle_w}{bot_border_char*width_button}{space_side_w}{right_side}")
  
+def get_menu(*args):
+    col_m_w = BUTTON_SPACE * " "
+    rows= [
+        [left_side, col_w],
+        [left_side, col_w],
+        [left_side, col_w]
+    ]
+ 
+    for i, arg in enumerate(args, start=1):
+        text = f"{i}. {arg}"
+
+        rows[0].append(f"{top_border_char*BUTTON_WIDTH}{col_m_w}")
+        rows[1].append(f"█{text:^{BUTTON_TEXT}}█{col_m_w}")
+        rows[2].append(f"{bot_border_char*BUTTON_WIDTH}{col_m_w}")
+
+    current_lenght_row = "".join(rows[0])   
+    right_w = BOX_WIDTH - len(current_lenght_row) - 2
+    right_space = f"{' ' * right_w}{right_side}" 
+    for row in rows:
+        row.append(right_space)
+
+    menu = "\n".join(["".join(row) for row in rows])
+    print(menu)
+
+

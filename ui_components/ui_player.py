@@ -41,7 +41,7 @@ def get_value(obj, name):
 
 def get_stats_table(unit):
     rows = []
-    rows.append( f"╔{'═'*stat_name_w}╦{'═'*stat_name_w}╗")
+    rows.append(f"╔{'═'*stat_name_w}╦{'═'*stat_name_w}╗")
     rows.append(f"║ {'Attributes':^{NAME_SPACE}} ║ {'Total':^{NAME_SPACE}} ║")
     for stat_name in unit.core_stats.keys():
         # Stats
@@ -73,10 +73,8 @@ def get_combat_stats_table(unit):
 
 def get_gear_table(unit):
     rows = []
-
     rows.append(f"╔{'═'*GEAR_SLOT}╦{'═'*GEAR_ITEM}╦{'═'*stats_w}╦{'═'*stats_w}╦{'═'*stats_w}╦{'═'*stats_w}╦{'═'*stats_w}╦{'═'*stats_w}╦{'═'*stats_w}╦{'═'*stats_w}╗")
     rows.append(f"║{'Slot':^{GEAR_SLOT}}║{'Item':^{GEAR_ITEM}}║{'WP':^{stats_w}}║{'SP':^{stats_w}}║{'Hp':^{stats_w}}║{'Str':^{stats_w}}║{'Agi':^{stats_w}}║{'Itn':^{stats_w}}║{'Def':^{stats_w}}║{'Spd':^{stats_w}}║")
-    
 
     for gear_slot_label, gear_slot in zip_longest(gear_lst, unit.gear.keys()):
         # Unit Gear
@@ -115,17 +113,10 @@ def get_equippable_table(unit, value=False):
     eq_name_w = eq_name_b_w -2
     val_text_w = ITEM_VALUE
 
-    if value == True:
-        val_title_w = f"║{'Val':^{val_text_w}}║"
-        val_t_w =  f"╦{'═'*val_text_w}╗"
-        val_m_w = f"╬{'═'*val_text_w}╣"
-        val_b_w = f"╩{'═'*val_text_w}╝"
-    else:
-        val_title_w = f"║"
-        val_t_w =  f"╗"
-        val_m_w = f"╣"
-        val_b_w = f"╝"
-
+    val_title_w = f"║{'Val':^{val_text_w}}║" if value == True else f"║"
+    val_t_w =  f"╦{'═'*val_text_w}╗" if value == True else f"╗"
+    val_m_w = f"╬{'═'*val_text_w}╣" if value == True else f"╣"
+    val_b_w = f"╩{'═'*val_text_w}╝" if value == True else f"╝"
 
     rows = []
     rows.append(f"╔{'═'*(eq_name_b_w)}╦{'═'*stats_w}╦{'═'*stats_w}╦{'═'*stats_w}╦{'═'*stats_w}╦{'═'*stats_w}╦{'═'*stats_w}╦{'═'*stats_w}╦{'═'*stats_w}{val_t_w}")
@@ -283,7 +274,7 @@ def print_buffs_debuffs(unit):
         print(f"{left_side}{debuff:^{middle}}{right_side}")
 
 def print_inventory(unit):
-    unit_equippable = get_equippable_table(unit,value=True)
+    unit_equippable = get_equippable_table(unit, True)
     unit_potions = get_potions(unit)
     unit_other = get_other(unit)
 

@@ -50,6 +50,7 @@ class Player(Character):
             self.gear["off_hand"] = shield_dict["Small Shield"]()
             self.resource_type = "rage"
             self.current_resource = 0
+            self.current_health = self.max_health 
         elif job == "ranger":
             self.vocation = "ranger"
             self.core_stats["agility"] += 1
