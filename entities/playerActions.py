@@ -10,6 +10,9 @@ import ui_components.ui_frames as ui_frames
 import ui_components.ui_player as ui_player
 import ui_components.ui_map as ui_map
  
+
+stats_lst: list[str] = ["health", "strength", "agility", "intelligence", "defense", "speed"]
+combat_stats_lst: list[str] = ["weapon_power", "spell_power", "crit_chance", "crit_damage", "dodge_chance", "block_chance"]
 def show_menu(player):
     menu = True
     while menu:
@@ -78,6 +81,9 @@ def equip(unit):
 
         if old_gear_item is not None:
             unit.backpack.append(old_gear_item)        
+
+        for b_stat, b_val in unit.bonus_stats.items():
+            print(f"{b_stat}: {b_val}")
 
 def after_a_fight(player):
     after_a_fight = True

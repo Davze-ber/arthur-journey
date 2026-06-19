@@ -132,28 +132,28 @@ class Character:
             "defense" : 0,
             "speed" : 0,
         }
-
-        for slot, item in self.gear.items():
-            if item:
-                for stat in stats_lst:
-                    bonus_stats[stat] += getattr(item, stat, 0)
+        
+        for item in self.gear.values():
+            if item is not None:
+                for stat in bonus_stats:
+                    bonus_stats[stat] += item.stats.get(stat, 0)
             
         for buff in self.buff_lst:
             if buff:
-                for stat in stats_lst:
+                for stat in bonus_stats:
                     bonus_stats[stat] += getattr(buff, stat, 0)
           
 
         for debuff in self.debuff_lst:
             if debuff:
-                for stat in stats_lst:
+                for stat in bonus_stats:
                     bonus_stats[stat] += getattr(debuff, stat, 0)
 
-        bonus_stats["health"] += int((self.core_stats["strength"] + bonus_stats["strength"]) * 2)
+        bonus_stats["health"] += int((self.core_stats["strength"] + bonus_stats["strength"]) * 1)
 
-        defense_strength = (self.core_stats["strength"] + bonus_stats["strength"]) * 0.5
-        defense_agility = (self.core_stats["agility"] + bonus_stats["agility"]) * 0.25
-        bonus_stats["defense"] += int(defense_strength + defense_agility)
+        # defense_strength = (self.core_stats["strength"] + bonus_stats["strength"]) * 0.5
+        # defense_agility = (self.core_stats["agility"] + bonus_stats["agility"]) * 0.25
+        # bonus_stats["defense"] += int(defense_strength + defense_agility)
 
         bonus_stats["speed"] +=  int((self.core_stats["agility"] + bonus_stats["agility"]) * 0.25)
         return bonus_stats           
